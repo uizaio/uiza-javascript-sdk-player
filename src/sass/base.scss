@@ -1,0 +1,77 @@
+// --------------------------------------------------------------
+// Base styling
+// --------------------------------------------------------------
+
+// Base
+.uiza {
+  @include uiza-font-smoothing($uiza-font-smoothing);
+
+  direction: ltr;
+  font-family: $uiza-font-family;
+  font-variant-numeric: tabular-nums; // Force monosace-esque number widths
+  font-weight: $uiza-font-weight-regular;
+  line-height: $uiza-line-height;
+  max-width: 100%;
+  min-width: 200px;
+  position: relative;
+  text-shadow: none;
+  transition: box-shadow 0.3s ease;
+
+  // Media elements
+  video,
+  audio {
+    border-radius: inherit;
+    height: auto;
+    vertical-align: middle;
+    width: 100%;
+  }
+
+  button {
+    font: inherit;
+    line-height: inherit;
+    width: auto;
+    svg {
+      -ms-transform: scale(1.2); /* IE 9 */
+      -webkit-transform: scale(1.2); /* Safari prior 9.0 */
+      transform: scale(1.2); /* Standard syntax */
+    }
+    &[data-uiza='play'] {
+      svg.icon--not-pressed {
+        -ms-transform: scale(1.5); /* IE 9 */
+        -webkit-transform: scale(1.5); /* Safari prior 9.0 */
+        transform: scale(1.5); /* Standard syntax */
+      }
+    }
+  }
+
+  // Ignore focus
+  &:focus {
+    outline: 0;
+  }
+}
+
+// border-box everything
+// http://paulirish.com/2012/box-sizing-border-box-ftw/
+@if $uiza-border-box {
+  .uiza--full-ui {
+    box-sizing: border-box;
+
+    *,
+    *::after,
+    *::before {
+      box-sizing: inherit;
+    }
+  }
+}
+
+// Fix 300ms delay
+@if $uiza-touch-action {
+  .uiza--full-ui {
+    a,
+    button,
+    input,
+    label {
+      touch-action: manipulation;
+    }
+  }
+}

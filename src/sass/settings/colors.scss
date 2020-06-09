@@ -1,0 +1,18 @@
+// ==========================================================================
+// Colors
+// ==========================================================================
+
+// $uiza-color-main: hsl(198, 100%, 50%) !default;
+$uiza-color-main: hsla(0, 0%, 100%, 0.74) !default;
+
+// Grayscale
+$uiza-color-gray-9: hsl(210, 15%, 16%);
+$uiza-color-gray-8: lighten($uiza-color-gray-9, 9%);
+$uiza-color-gray-7: lighten($uiza-color-gray-8, 9%);
+$uiza-color-gray-6: lighten($uiza-color-gray-7, 9%);
+$uiza-color-gray-5: lighten($uiza-color-gray-6, 9%);
+$uiza-color-gray-4: lighten($uiza-color-gray-5, 9%);
+$uiza-color-gray-3: lighten($uiza-color-gray-4, 9%);
+$uiza-color-gray-2: lighten($uiza-color-gray-3, 9%);
+$uiza-color-gray-1: lighten($uiza-color-gray-2, 9%);
+$uiza-color-gray-0: lighten($uiza-color-gray-1, 9%);

@@ -1,0 +1,77 @@
+// --------------------------------------------------------------
+// Captions
+// --------------------------------------------------------------
+
+// Hide default captions
+.uiza--full-ui {
+  ::-webkit-media-text-track-container {
+    display: none;
+  }
+  ::cue {
+    visibility: hidden !important;
+  }
+}
+
+.uiza__captions {
+  animation: uiza-fade-in 0.3s ease;
+  bottom: 0;
+  color: $uiza-captions-color;
+  display: none;
+  font-size: $uiza-font-size-captions-small;
+  left: 0;
+  padding: $uiza-control-spacing;
+  position: absolute;
+  text-align: center;
+  transition: transform 0.4s ease-in-out;
+  width: 100%;
+
+  .uiza__caption {
+    background: $uiza-captions-bg;
+    border-radius: 2px;
+    box-decoration-break: clone;
+    line-height: 185%;
+    padding: 0.2em 0.5em;
+    white-space: pre-wrap;
+
+    // Firefox adds a <div> when using getCueAsHTML()
+    div {
+      display: inline;
+    }
+  }
+
+  span:empty {
+    display: none;
+  }
+
+  @media (min-width: $uiza-bp-sm) {
+    font-size: $uiza-font-size-captions-base;
+    padding: ($uiza-control-spacing * 2);
+  }
+
+  @media (min-width: $uiza-bp-md) {
+    font-size: $uiza-font-size-captions-medium;
+  }
+}
+
+.uiza--captions-active .uiza__captions {
+  display: block;
+}
+
+// If the lower controls are shown and not empty
+.uiza:not(.uiza--hide-controls) .uiza__controls:not(:empty) ~ .uiza__captions {
+  transform: translateY(-($uiza-control-spacing * 4));
+}
+
+// From Hls.js 0.10.0+, we can't hide default captions on Edge (v18.18362 and older)
+// So we must hide the custom captions renderer, otherwise the captions will duplicated
+// Ref: https://stackoverflow.com/questions/28417056/how-to-target-only-ie-any-version-within-a-stylesheet#answer-35486073
+@supports (-ms-accelerator: auto) {
+  .uiza__captions {
+    display: none !important;
+  }
+}
+@supports (-ms-ime-align: auto) {
+  .uiza__captions {
+    display: none !important;
+  }
+}

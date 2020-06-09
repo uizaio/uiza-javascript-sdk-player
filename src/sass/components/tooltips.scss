@@ -1,0 +1,88 @@
+// --------------------------------------------------------------
+// Tooltips
+// --------------------------------------------------------------
+
+.uiza__tooltip {
+  background: $uiza-tooltip-bg;
+  border-radius: $uiza-tooltip-radius;
+  bottom: 100%;
+  box-shadow: $uiza-tooltip-shadow;
+  color: $uiza-tooltip-color;
+  font-size: $uiza-font-size-small;
+  font-weight: $uiza-font-weight-regular;
+  left: 50%;
+  line-height: 1.3;
+  margin-bottom: ($uiza-tooltip-padding * 2);
+  opacity: 0;
+  padding: $uiza-tooltip-padding ($uiza-tooltip-padding * 1.5);
+  pointer-events: none;
+  position: absolute;
+  transform: translate(-50%, 10px) scale(0.8);
+  transform-origin: 50% 100%;
+  transition: transform 0.2s 0.1s ease, opacity 0.2s 0.1s ease;
+  white-space: nowrap;
+  z-index: 2;
+
+  // The background triangle
+  &::before {
+    border-left: $uiza-tooltip-arrow-size solid transparent;
+    border-right: $uiza-tooltip-arrow-size solid transparent;
+    border-top: $uiza-tooltip-arrow-size solid $uiza-tooltip-bg;
+    bottom: -$uiza-tooltip-arrow-size;
+    content: '';
+    height: 0;
+    left: 50%;
+    position: absolute;
+    transform: translateX(-50%);
+    width: 0;
+    z-index: 2;
+  }
+}
+
+// Displaying
+.uiza .uiza__control:hover .uiza__tooltip,
+.uiza .uiza__control.uiza__tab-focus .uiza__tooltip,
+.uiza__tooltip--visible {
+  opacity: 1;
+  transform: translate(-50%, 0) scale(1);
+}
+
+.uiza .uiza__control:hover .uiza__tooltip {
+  z-index: 3;
+}
+
+// First tooltip
+.uiza__controls > .uiza__control:first-child .uiza__tooltip,
+.uiza__controls > .uiza__control:first-child + .uiza__control .uiza__tooltip {
+  left: 0;
+  transform: translate(0, 10px) scale(0.8);
+  transform-origin: 0 100%;
+
+  &::before {
+    left: ($uiza-control-icon-size / 2) + $uiza-control-padding;
+  }
+}
+
+// Last tooltip
+.uiza__controls > .uiza__control:last-child .uiza__tooltip {
+  left: auto;
+  right: 0;
+  transform: translate(0, 10px) scale(0.8);
+  transform-origin: 100% 100%;
+
+  &::before {
+    left: auto;
+    right: ($uiza-control-icon-size / 2) + $uiza-control-padding;
+    transform: translateX(50%);
+  }
+}
+
+.uiza__controls > .uiza__control:first-child,
+.uiza__controls > .uiza__control:first-child + .uiza__control,
+.uiza__controls > .uiza__control:last-child {
+  &:hover .uiza__tooltip,
+  &.uiza__tab-focus .uiza__tooltip,
+  .uiza__tooltip--visible {
+    transform: translate(0, 0) scale(1);
+  }
+}

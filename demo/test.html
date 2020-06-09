@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang='en' dir='ltr'>
+
+<head>
+  <meta charset='utf-8'>
+  <title></title>
+  <meta name='viewport' content='width=device-width,initial-scale=1'>
+
+  <link href='./uiza.css' rel='stylesheet'>
+  <script src='./uiza.min.js'></script>
+
+</head>
+
+<body>
+  <video id='UZPlayer' data-uiza-provider=hlsjs crossorigin playsinline muted></video>
+
+  <script>
+    (async (options) => {
+      window.UZPlayer = await new Uiza(document.getElementById('UZPlayer'), options);
+    })({
+      src: 
+    'https://1775190502.rsc.cdn77.org/live/6ee23995-f4aa-45d3-9395-17ce60eebc40/extras/master.m3u8?cm=eyJlbnRpdHlfaWQiOiI2ZWUyMzk5NS1mNGFhLTQ1ZDMtOTM5NS0xN2NlNjBlZWJjNDAiLCJlbnRpdHlfc291cmNlIjoibGl2ZSIsImFwcF9pZCI6IjkyYThkMjAzMmZlODQ5MmFhNzc4MDRiNGMyYzUxOWM1In0='
+  })
+  </script>
+
+</body>
+
+</html>

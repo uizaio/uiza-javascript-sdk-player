@@ -1,0 +1,110 @@
+// --------------------------------------------------------------
+// Playback progress
+// --------------------------------------------------------------
+
+// Offset the range thumb in order to be able to calculate the relative progress (#954)
+$uiza-progress-offset: $uiza-range-thumb-height;
+
+.uiza__progress {
+  left: ($uiza-control-spacing * 2);
+  // margin-right: $uiza-progress-offset;
+  position: absolute;
+  bottom: ($uiza-control-spacing * 4);
+  width: calc(100% - #{$uiza-control-spacing * 4});
+  display: none;
+  &.show {
+    display: block;
+  }
+
+  input[type='range'],
+  &__buffer {
+    margin-left: -($uiza-progress-offset / 2);
+    margin-right: -($uiza-progress-offset / 2);
+    width: calc(100% + #{$uiza-progress-offset});
+    color: red;
+  }
+
+  input[type='range'] {
+    position: relative;
+    z-index: 2;
+  }
+
+  // Seek tooltip to show time
+  .uiza__tooltip {
+    font-size: $uiza-font-size-time;
+    left: 0;
+  }
+}
+
+.uiza__progress__buffer {
+  -webkit-appearance: none; /* stylelint-disable-line */
+  background: transparent;
+  border: 0;
+  border-radius: 100px;
+  height: $uiza-range-track-height;
+  left: 0;
+  margin-top: -($uiza-range-track-height / 2);
+  padding: 0;
+  position: absolute;
+  top: 50%;
+
+  &::-webkit-progress-bar {
+    background: transparent;
+  }
+
+  &::-webkit-progress-value {
+    background: currentColor;
+    border-radius: 100px;
+    min-width: $uiza-range-track-height;
+    transition: width 0.2s ease;
+  }
+
+  // Mozilla
+  &::-moz-progress-bar {
+    background: currentColor;
+    border-radius: 100px;
+    min-width: $uiza-range-track-height;
+    transition: width 0.2s ease;
+  }
+
+  // Microsoft
+  &::-ms-fill {
+    border-radius: 100px;
+    transition: width 0.2s ease;
+  }
+}
+
+.uiza--video .uiza__progress__buffer {
+  box-shadow: 0 1px 1px rgba(#000, 0.15);
+  color: $uiza-video-progress-buffered-bg;
+}
+
+.uiza--audio .uiza__progress__buffer {
+  color: $uiza-audio-progress-buffered-bg;
+}
+
+// Loading state
+.uiza--loading .uiza__progress__buffer {
+  animation: uiza-progress 1s linear infinite;
+  background-image: linear-gradient(
+    -45deg,
+    $uiza-progress-loading-bg 25%,
+    transparent 25%,
+    transparent 50%,
+    $uiza-progress-loading-bg 50%,
+    $uiza-progress-loading-bg 75%,
+    transparent 75%,
+    transparent
+  );
+  background-repeat: repeat-x;
+  background-size: $uiza-progress-loading-size $uiza-progress-loading-size;
+  color: transparent;
+}
+
+.uiza--video.uiza--loading .uiza__progress__buffer {
+  background-color: $uiza-video-progress-buffered-bg;
+}
+
+.uiza--audio.uiza--loading .uiza__progress__buffer {
+  background-color: $uiza-audio-progress-buffered-bg;
+}

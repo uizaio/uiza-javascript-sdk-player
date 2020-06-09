@@ -1,0 +1,84 @@
+{
+  "demo": {
+    "index.html": {
+      "src": "./demo/index.html",
+      "dist": "./dist/"
+    },
+    "test.html": {
+      "src": "./demo/test.html",
+      "dist": "./dist/"
+    },
+    "libs": {
+      "src": "./demo/libs/**/*",
+      "dist": "./dist/libs"
+    },
+    "media": {
+      "src": "./demo/media/**/*",
+      "dist": "./dist/media"
+    },
+    "demo.js": {
+      "src": "./demo/src/js/demo.js",
+      "dist": "./dist/",
+      "formats": ["iife"],
+      "namespace": "Demo",
+      "polyfill": true
+    },
+    "demo.svg": {
+      "src": "./src/sprite/*.svg",
+      "dist": "./dist"
+    },
+    "demo.css": {
+      "src": "./demo/src/sass/bundles/demo.scss",
+      "dist": "./dist/"
+    }
+  },
+  "static": {
+    "hls.min.js": {
+      "src": "./demo/libs/hls.min.js",
+      "dist": "./dist/"
+    },
+    "fingerprint2.min.js": {
+      "src": "./demo/libs/fingerprint2.min.js",
+      "dist": "./dist/"
+    },
+    "favicon.ico": {
+      "src": "./demo/favicon.ico",
+      "dist": "./dist/"
+    },
+    "iframe.html": {
+      "src": "./demo/iframe.html",
+      "dist": "./dist/"
+    },
+    "test.html": {
+      "src": "./demo/test.html",
+      "dist": "./dist/"
+    }
+  },
+  "js": {
+    "uiza.js": {
+      "src": "./src/js/uiza.js",
+      "dist": "./dist/",
+      "formats": ["es", "umd"],
+      "namespace": "Uiza"
+    },
+    "uiza.polyfilled.js": {
+      "src": "./src/js/uiza.polyfilled.js",
+      "dist": "./dist/",
+      "formats": ["es", "umd"],
+      "namespace": "Uiza",
+      "polyfill": true
+    }
+  },
+  "css": {
+    "uiza.css": {
+      "src": "./src/sass/uiza.scss",
+      "dist": "./dist/"
+    }
+  },
+  "sprite": {
+    "uiza.svg": {
+      "src": "./src/sprite/*.svg",
+      "dist": "./dist"
+    }
+  }
+}

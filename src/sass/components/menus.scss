@@ -1,0 +1,201 @@
+// --------------------------------------------------------------
+// Menus
+// --------------------------------------------------------------
+
+.uiza__menu {
+  display: flex; // Edge fix
+  position: relative;
+
+  // Animate the icon
+  .uiza__control svg {
+    transition: transform 0.3s ease;
+  }
+  .uiza__control[aria-expanded='true'] {
+    svg {
+      transform: rotate(90deg);
+    }
+
+    // Hide tooltip
+    .uiza__tooltip {
+      display: none;
+    }
+  }
+
+  // The actual menu container
+  &__container {
+    animation: uiza-popup 0.2s ease;
+    background: $uiza-menu-bg;
+    border-radius: 4px;
+    bottom: 100%;
+    box-shadow: $uiza-menu-shadow;
+    color: $uiza-menu-color;
+    font-size: $uiza-font-size-base;
+    margin-bottom: 10px;
+    position: absolute;
+    right: -3px;
+    text-align: left;
+    white-space: nowrap;
+    z-index: 3;
+
+    > div {
+      overflow: hidden;
+      transition: height 0.35s cubic-bezier(0.4, 0, 0.2, 1), width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    // Arrow
+    &::after {
+      border: 4px solid transparent;
+      border-top-color: $uiza-menu-bg;
+      content: '';
+      height: 0;
+      position: absolute;
+      right: 15px;
+      top: 100%;
+      width: 0;
+    }
+
+    [role='menu'] {
+      overflow: auto;
+      padding: $uiza-control-padding;
+    }
+
+    [role='menuitem'],
+    [role='menuitemradio'] {
+      margin-top: 2px;
+
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+
+    // Options
+    .uiza__control {
+      align-items: center;
+      color: $uiza-menu-color;
+      display: flex;
+      font-size: $uiza-font-size-menu;
+      padding: ceil($uiza-control-padding / 2) ceil($uiza-control-padding * 1.5);
+      user-select: none;
+      width: 100%;
+
+      > span {
+        align-items: inherit;
+        display: flex;
+        width: 100%;
+      }
+
+      &::after {
+        border: 4px solid transparent;
+        content: '';
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      &--forward {
+        padding-right: ceil($uiza-control-padding * 4);
+
+        &::after {
+          border-left-color: rgba($uiza-menu-color, 0.8);
+          right: 5px;
+        }
+
+        &.uiza__tab-focus::after,
+        &:hover::after {
+          border-left-color: currentColor;
+        }
+      }
+
+      &--back {
+        $horizontal-padding: ($uiza-control-padding * 2);
+        font-weight: $uiza-font-weight-regular;
+        margin: $uiza-control-padding;
+        margin-bottom: floor($uiza-control-padding / 2);
+        padding-left: ceil($uiza-control-padding * 4);
+        position: relative;
+        width: calc(100% - #{$horizontal-padding});
+
+        &::after {
+          border-right-color: rgba($uiza-menu-color, 0.8);
+          left: $uiza-control-padding;
+        }
+
+        &::before {
+          background: $uiza-menu-border-color;
+          box-shadow: 0 1px 0 $uiza-menu-border-shadow-color;
+          content: '';
+          height: 1px;
+          left: 0;
+          margin-top: ceil($uiza-control-padding / 2);
+          overflow: hidden;
+          position: absolute;
+          right: 0;
+          top: 100%;
+        }
+
+        &.uiza__tab-focus::after,
+        &:hover::after {
+          border-right-color: currentColor;
+        }
+      }
+    }
+
+    .uiza__control[role='menuitemradio'] {
+      padding-left: $uiza-control-padding;
+
+      &::before,
+      &::after {
+        border-radius: 100%;
+      }
+
+      &::before {
+        background: rgba(#000, 0.1);
+        content: '';
+        display: block;
+        flex-shrink: 0;
+        height: 16px;
+        margin-right: $uiza-control-spacing;
+        transition: all 0.3s ease;
+        width: 16px;
+      }
+
+      &::after {
+        background: #fff;
+        border: 0;
+        height: 6px;
+        left: 12px;
+        opacity: 0;
+        top: 50%;
+        transform: translateY(-50%) scale(0);
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        width: 6px;
+      }
+
+      &[aria-checked='true'] {
+        &::before {
+          // background: $uiza-color-main;
+        }
+        &::after {
+          opacity: 1;
+          transform: translateY(-50%) scale(1);
+        }
+      }
+
+      &.uiza__tab-focus::before,
+      &:hover::before {
+        background: rgba(#000, 0.1);
+      }
+    }
+
+    // Option value
+    .uiza__menu__value {
+      align-items: center;
+      display: flex;
+      margin-left: auto;
+      margin-right: -($uiza-control-padding - 2);
+      overflow: hidden;
+      padding-left: ceil($uiza-control-padding * 3.5);
+      pointer-events: none;
+    }
+  }
+}

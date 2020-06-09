@@ -1,0 +1,88 @@
+// ==========================================================================
+// Mixins
+// ==========================================================================
+
+// Nicer focus styles
+// ---------------------------------------
+@mixin uiza-tab-focus($color: $uiza-tab-focus-default-color) {
+  // box-shadow: 0 0 0 5px rgba($color, 0.5);
+  outline: 0;
+}
+
+// Font smoothing
+// ---------------------------------------
+@mixin uiza-font-smoothing($mode: true) {
+  @if $mode {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+  } @else {
+    -moz-osx-font-smoothing: auto;
+    -webkit-font-smoothing: subpixel-antialiased;
+  }
+}
+
+// <input type="range"> styling
+// ---------------------------------------
+@mixin uiza-range-track() {
+  background: transparent;
+  border: 0;
+  border-radius: ($uiza-range-track-height / 2);
+  height: $uiza-range-track-height;
+  transition: box-shadow 0.3s ease;
+  user-select: none;
+}
+
+@mixin uiza-range-thumb() {
+  background: $uiza-range-thumb-bg;
+  border: 0;
+  border-radius: 100%;
+  box-shadow: $uiza-range-thumb-shadow;
+  height: $uiza-range-thumb-height;
+  position: relative;
+  transition: all 0.2s ease;
+  width: $uiza-range-thumb-height;
+}
+
+@mixin uiza-range-thumb-active($color: rgba($uiza-range-thumb-bg, 0.5)) {
+  box-shadow: $uiza-range-thumb-shadow, 0 0 0 $uiza-range-thumb-active-shadow-width $color;
+}
+
+// Fullscreen styles
+// ---------------------------------------
+@mixin uiza-fullscreen-active() {
+  background: #000;
+  border-radius: 0 !important;
+  height: 100%;
+  margin: 0;
+  width: 100%;
+
+  video {
+    height: 100%;
+  }
+
+  .uiza__video-wrapper {
+    height: 100%;
+    position: static;
+  }
+
+  // Display correct icon
+  .uiza__control .icon--exit-fullscreen {
+    display: block;
+
+    + svg {
+      display: none;
+    }
+  }
+
+  // Hide cursor in fullscreen when controls hidden
+  &.uiza--hide-controls {
+    cursor: none;
+  }
+
+  // Large captions in full screen on larger screens
+  @media (min-width: $uiza-bp-lg) {
+    .uiza__captions {
+      font-size: $uiza-font-size-captions-large;
+    }
+  }
+}

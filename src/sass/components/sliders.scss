@@ -1,0 +1,154 @@
+// --------------------------------------------------------------
+// Slider inputs - <input type="range">
+// --------------------------------------------------------------
+
+.uiza--full-ui input[type='range'] {
+  // WebKit
+  -webkit-appearance: none; /* stylelint-disable-line */
+  background: transparent;
+  border: 0;
+  border-radius: ($uiza-range-thumb-height * 2);
+  // color is used in JS to populate lower fill for WebKit
+  color: $uiza-range-fill-bg;
+  display: block;
+  height: $uiza-range-max-height;
+  margin: 0;
+  padding: 0;
+  transition: box-shadow 0.3s ease;
+  width: 100%;
+
+  &::-webkit-slider-runnable-track {
+    @include uiza-range-track();
+    background-image: linear-gradient(to right, currentColor var(--value, 0%), transparent var(--value, 0%));
+  }
+
+  &::-webkit-slider-thumb {
+    @include uiza-range-thumb();
+    -webkit-appearance: none; /* stylelint-disable-line */
+    margin-top: -(($uiza-range-thumb-height - $uiza-range-track-height) / 2);
+  }
+
+  // Mozilla
+  &::-moz-range-track {
+    @include uiza-range-track();
+  }
+
+  &::-moz-range-thumb {
+    @include uiza-range-thumb();
+  }
+
+  &::-moz-range-progress {
+    background: currentColor;
+    border-radius: ($uiza-range-track-height / 2);
+    height: $uiza-range-track-height;
+  }
+
+  // Microsoft
+  &::-ms-track {
+    @include uiza-range-track();
+    color: transparent;
+  }
+
+  &::-ms-fill-upper {
+    @include uiza-range-track();
+  }
+
+  &::-ms-fill-lower {
+    @include uiza-range-track();
+
+    background: currentColor;
+  }
+
+  &::-ms-thumb {
+    @include uiza-range-thumb();
+    // For some reason, Edge uses the -webkit margin above
+    margin-top: 0;
+  }
+
+  &::-ms-tooltip {
+    display: none;
+  }
+
+  // Focus styles
+  &:focus {
+    outline: 0;
+  }
+
+  &::-moz-focus-outer {
+    border: 0;
+  }
+
+  &.uiza__tab-focus {
+    &::-webkit-slider-runnable-track {
+      @include uiza-tab-focus();
+    }
+
+    &::-moz-range-track {
+      @include uiza-tab-focus();
+    }
+
+    &::-ms-track {
+      @include uiza-tab-focus();
+    }
+  }
+}
+
+// Video range inputs
+.uiza--full-ui.uiza--video input[type='range'] {
+  &::-webkit-slider-runnable-track {
+    background-color: $uiza-video-range-track-bg;
+  }
+
+  &::-moz-range-track {
+    background-color: $uiza-video-range-track-bg;
+  }
+
+  &::-ms-track {
+    background-color: $uiza-video-range-track-bg;
+  }
+
+  // Pressed styles
+  &:active {
+    &::-webkit-slider-thumb {
+      @include uiza-range-thumb-active();
+    }
+
+    &::-moz-range-thumb {
+      @include uiza-range-thumb-active();
+    }
+
+    &::-ms-thumb {
+      @include uiza-range-thumb-active();
+    }
+  }
+}
+
+// Audio range inputs
+.uiza--full-ui.uiza--audio input[type='range'] {
+  &::-webkit-slider-runnable-track {
+    background-color: $uiza-audio-range-track-bg;
+  }
+
+  &::-moz-range-track {
+    background-color: $uiza-audio-range-track-bg;
+  }
+
+  &::-ms-track {
+    background-color: $uiza-audio-range-track-bg;
+  }
+
+  // Pressed styles
+  &:active {
+    &::-webkit-slider-thumb {
+      @include uiza-range-thumb-active($uiza-audio-range-thumb-shadow-color);
+    }
+
+    &::-moz-range-thumb {
+      @include uiza-range-thumb-active($uiza-audio-range-thumb-shadow-color);
+    }
+
+    &::-ms-thumb {
+      @include uiza-range-thumb-active($uiza-audio-range-thumb-shadow-color);
+    }
+  }
+}

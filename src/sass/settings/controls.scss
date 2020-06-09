@@ -1,0 +1,18 @@
+// ==========================================================================
+// Controls
+// ==========================================================================
+
+$uiza-control-icon-size: 18px !default;
+$uiza-control-spacing: 10px !default;
+$uiza-control-padding: ($uiza-control-spacing * 0.7) !default;
+$uiza-control-radius: 3px !default;
+
+$uiza-video-controls-bg: #000 !default;
+$uiza-video-control-color: #fff !default;
+$uiza-video-control-color-hover: #fff !default;
+$uiza-video-control-bg-hover: $uiza-color-main !default;
+
+$uiza-audio-controls-bg: #fff !default;
+$uiza-audio-control-color: $uiza-color-gray-7 !default;
+$uiza-audio-control-color-hover: #fff !default;
+$uiza-audio-control-bg-hover: $uiza-color-main !default;
