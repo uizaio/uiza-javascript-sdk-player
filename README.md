@@ -43,13 +43,13 @@ See [initialising](#initialising) for more information on advanced setups.
 You can use our CDN for the JavaScript. There's 2 versions; one with and one without [polyfills](#polyfills). My recommendation would be to manage polyfills seperately as part of your application but to make life easier you can use the polyfilled build.
 
 ```html
-<script src="https://sdk.uiza.io/v5/alpha-2020051901/uiza.min.js"></script>
+<script src="https://sdk.uiza.io/v5/release/uiza.min.js"></script>
 ```
 
 ...or...
 
 ```html
-<script src="https://sdk.uiza.io/v5/alpha-2020051901/uiza.polyfilled.js"></script>
+<script src="https://sdk.uiza.io/v5/release/uiza.polyfilled.js"></script>
 ```
 
 ## CSS
@@ -57,7 +57,7 @@ You can use our CDN for the JavaScript. There's 2 versions; one with and one wit
 Include the `uiza.css` stylsheet into your `<head>`.
 
 ```html
-<link rel="stylesheet" href="https://sdk.uiza.io/v5/alpha-2020051901/uiza.css" />
+<link rel="stylesheet" href="https://sdk.uiza.io/v5/release/uiza.css" />
 ```
 
 ## Example
@@ -73,8 +73,8 @@ example.html
   <title></title>
   <meta name='viewport' content='width=device-width,initial-scale=1'>
 
-  <link href='https://sdk.uiza.io/v5/alpha-2020051901/uiza.css' rel='stylesheet'>
-  <script src='https://sdk.uiza.io/v5/alpha-2020051901/uiza.min.js'></script>
+  <link href='https://sdk.uiza.io/v5/release/uiza.css' rel='stylesheet'>
+  <script src='https://sdk.uiza.io/v5/release/uiza.min.js'></script>
 
 </head>
 
@@ -125,8 +125,8 @@ Example for maxBufferLengthand maxMaxBufferLength.  [Demo here](https://playcode
   <title></title>
   <meta name='viewport' content='width=device-width,initial-scale=1'>
 
-  <link href='https://sdk.uiza.io/v5/alpha-2020051901/uiza.css' rel='stylesheet'>
-  <script src='https://sdk.uiza.io/v5/alpha-2020051901/uiza.min.js'></script>
+  <link href='https://sdk.uiza.io/v5/release/uiza.css' rel='stylesheet'>
+  <script src='https://sdk.uiza.io/v5/release/uiza.min.js'></script>
 
 </head>
 
@@ -183,8 +183,8 @@ Example for hide button `pip` and `settings`, only override configure to false. 
   <title></title>
   <meta name='viewport' content='width=device-width,initial-scale=1'>
 
-  <link href='https://sdk.uiza.io/v5/alpha-2020051901/uiza.css' rel='stylesheet'>
-  <script src='https://sdk.uiza.io/v5/alpha-2020051901/uiza.min.js'></script>
+  <link href='https://sdk.uiza.io/v5/release/uiza.css' rel='stylesheet'>
+  <script src='https://sdk.uiza.io/v5/release/uiza.min.js'></script>
 
 </head>
 
