@@ -7,6 +7,7 @@
     "Au Duong Jeff Le <duongldn@uiza.io>"
   ],
   "main": "dist/uiza.js",
+  "types": "src/js/uiza.d.ts",
   "module": "dist/uiza.min.mjs",
   "jsnext:main": "dist/uiza.min.mjs",
   "browser": "dist/uiza.min.js",
