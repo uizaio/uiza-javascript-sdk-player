@@ -1,0 +1,19 @@
+sudo: false
+
+language: node_js
+node_js:
+- '8'
+- '10'
+- '12'
+
+cache:
+  directories:
+    - node_modules
+
+before_install: if [[ `npm -v` != 6* ]]; then npm i -g npm@6; fi
+
+script:
+  - npm run build:stage
+
+notifications:
+  slack: leduong:8FHnajypcfOykiQS6Hn6QBB5
