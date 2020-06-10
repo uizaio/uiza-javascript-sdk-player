@@ -5,7 +5,7 @@
 import { version as VERSION } from '../../../package.json';
 import events from '../events';
 
-const CLOUD_URL = `https://sdk.uiza.io/v5/${VERSION}/`.replace('5.0.0-', '');
+const CLOUD_URL = `https://cdn.jsdelivr.net/npm/@uizaio/playerjs@${VERSION}/dist/`;
 
 const defaults = {
   // Disable

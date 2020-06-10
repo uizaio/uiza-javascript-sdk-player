@@ -1,8 +1,6 @@
 sudo: false
 language: node_js
 node_js:
-- '8'
-- '10'
 - '12'
 cache:
   directories:
@@ -11,7 +9,6 @@ before_install: if [[ `npm -v` != 6* ]]; then npm i -g npm@6; fi
 script:
 - npm run build:prod
 deploy:
-  node_js: '12'
   skip_cleanup: true
   on:
     branch: release/*
