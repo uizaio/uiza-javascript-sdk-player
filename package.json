@@ -1,5 +1,5 @@
 {
-  "name": "uiza-player-sdk",
+  "name": "@uiza/playerjs",
   "version": "5.20.0701",
   "description": "A simple, accessible and customizable HTML5, streaming media player",
   "copyright": "Copyright UIZA PTE. LTD. <https://www.uiza.io/>",
