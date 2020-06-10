@@ -1,5 +1,5 @@
 {
-  "name": "sdk-website-v5",
+  "name": "@uiza/player",
   "version": "5.0.0-release",
   "description": "A simple, accessible and customizable HTML5, streaming media player",
   "copyright": "Copyright UIZA PTE. LTD. <https://www.uiza.io/>",
@@ -22,7 +22,10 @@
     "Plyr"
   ],
   "license": "MIT",
-  "repository": "bitbucket:uiza-team/sdk-website-v5",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/uizaio/uiza-javascript-sdk-player.git"
+  },
   "scripts": {
     "test": "live-server --browser='Google Chrome' --port=5959 --open=dist --watch=dist/index.html,dist/demo.min.js,dist/uiza.min.js",
     "dev": "watch 'npm run build' src demo",

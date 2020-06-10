@@ -1,19 +1,22 @@
 sudo: false
-
 language: node_js
 node_js:
 - '8'
 - '10'
 - '12'
-
 cache:
   directories:
-    - node_modules
-
+  - node_modules
 before_install: if [[ `npm -v` != 6* ]]; then npm i -g npm@6; fi
-
 script:
-  - npm run build:stage
-
+- npm run build:prod
+deploy:
+  on:
+    branch: release/*
+  provider: npm
+  email: duongldn@uiza.io
+  api_key:
+    secure: pJq1vYXbL4utMyx+xSVOngmY1fEhPZtX1rTprcDyr657dat6YoHexs10lFqfSuLl/TIsm6wV2XS4ceOgCoZwSHhtXlrof5rU40Jk+4L1kEAcyFX2C6/FrxbjVUgBwewZKEvqMXD9pMAfeQDwK08MgfsBeUhqBlxasdMo+HTZ5CQ0uI/wq/lmlPVGwUu4mBgn7RiXVxyN4Mp2+5J7ceOSABo6H5DbCAojQpFrAcn79FN5kLPkbO9zo6KrknQwZLHBf63DS+GOZ7vhoa6oBKgWhp9lPJXr4E4+0lMpvZF/GaerxdguyDouWWOv22HAwbU05fzJczagQJZK6G3YGrKVh8OE2JjcwuJLQCjPHpYZR/Z9JZ0isrMjLHCPsLVuZoD1ccgTT3zBSAcwSpwIzNU3gmhVVkBkdAk+pcSOCGU8uSGP6qLIm3LfZMcv6ffi4ZR/ygLgTsXgLcshNMO0cYDBBIbw6Ho44reOc/MO4dOIMVGIOP3rjbrtvZJ+Zdjd9E5LoiW6gIySt09MMUoubgQRyDXRSEmIrxfa4A9qGJtFiNWFrQCbNQ/HdV8aW/9soP26EjH/e1IsbUOet57UQQRf7yydBzxMjM605Qy9onWX7Goy/JSat5UnKYOshJIjHCxkUV7maDaP8+2IEqggMCaCqVvIovmhWIUHrxim0yFcKZg=
 notifications:
-  slack: leduong:8FHnajypcfOykiQS6Hn6QBB5
+  slack:
+    secure: SQJkIhHTiX6Ls5u7eajm1PqsOnWQ8dclxsKFY5aUuuxWSHG0/R6tEvyktelAOhBQKZ1p8B4gWs4HjbDRWh5SeogytOyAvrhKJaX0+DG+eJoHOVBD8xzow/p4Gj6u9bMwlWYc+uj8WnJPMqYcx2lciWIL156CEsd/CbnvFQOlA2hdMH+gLd46nb4bBHc2YS6qC6YHqvsSZPiMLaPo8hk/LDZeMC3+g0oChLRyJIaC5bIh17lVAgTccbYy4jBooM3ryckYnVZvhKlAPfgZ8bP/kXia7FMkOi8vhtoi3V8pekif44ii4CfQg3+QEpn9cGSHfBrveIvqOAwribdh4YvqAOfviapbGnJBtsfX3L/rlCYfUirfhEJ6Njz9zKpTo7yafdvndd/47zkKz3cNzpyrodIqG24DIsB700Gphyss9s95rf68dItKME9ZlGxRTBGbI+J33FvEfAnCHhxB8bFnWQYc/GIXd06jhHVSXgugBesNgeZYuKt1k3UP8L7x4DK/Yk+q3ZGHktOmNbESw5LK8D1E/elvhqM4SgitTtVvi+d/9fMUlTdcxRPUGqH87Bt285eWUlWyGlpKECBhcs0Y2XOukkw3pszUBVugAaueppFj/pJJt0a9zYTZHCr8tmJCKYY3wK3uvnpsVLb19vIwUybQ5xbsCpu9y4SVvjRurxA=
