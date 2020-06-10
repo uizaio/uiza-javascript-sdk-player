@@ -11,6 +11,8 @@ before_install: if [[ `npm -v` != 6* ]]; then npm i -g npm@6; fi
 script:
 - npm run build:prod
 deploy:
+  node_js: '12'
+  skip_cleanup: true
   on:
     branch: release/*
   provider: npm
