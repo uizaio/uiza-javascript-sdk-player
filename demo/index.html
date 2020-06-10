@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang='en' dir='ltr'>
+
+<head>
+  <meta charset='utf-8'>
+  <title></title>
+  <meta name='viewport' content='width=device-width,initial-scale=1'>
+
+  <link href='./demo.css' rel='stylesheet'>
+  <link href='./uiza.css' rel='stylesheet'>
+
+  <script src='./uiza.min.js'></script>
+  <script src='./libs/highcharts.min.js'></script>
+  <script src='./libs/mux.js'></script>
+</head>
+
+<body>
+  <div class='container'>
+    <select id='selectlink'>
+      <option value=''>Select</option>
+    </select>
+    <br><br>
+    <input id='inputlink' placeholder='Input your link play or select the demo link'>
+    <br><br>
+    <pre id='status'></pre>
+  </div>
+  <div id='chart'></div>
+
+  <script src='./demo.min.js'></script>
+  <script>
+    document.querySelector('#selectlink').onchange = onSelectLinkChange;
+    document.querySelector('#inputlink').oninput = onInputLinkChange;
+  </script>
+
+</body>
+
+</html>

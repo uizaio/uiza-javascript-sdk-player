@@ -1,0 +1,12 @@
+// ==========================================================================
+// Breakpoints
+// ==========================================================================
+
+$uiza-bp-sm: 480px !default;
+$uiza-bp-md: 768px !default;
+$uiza-bp-lg: 1024px !default;
+
+// Max-width media queries
+$uiza-bp-xs-max: ($uiza-bp-sm - 1);
+$uiza-bp-sm-max: ($uiza-bp-md - 1);
+$uiza-bp-md-max: ($uiza-bp-lg - 1);

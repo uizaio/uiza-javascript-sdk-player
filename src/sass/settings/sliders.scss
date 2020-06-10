@@ -1,0 +1,24 @@
+// ==========================================================================
+// Sliders
+// ==========================================================================
+
+// Active state
+$uiza-range-thumb-active-shadow-width: 3px !default;
+
+// Thumb
+$uiza-range-thumb-height: 13px !default;
+$uiza-range-thumb-bg: #fff !default;
+$uiza-range-thumb-border: 2px solid transparent !default;
+$uiza-range-thumb-shadow: 0 1px 1px rgba(#000, 0.15), 0 0 0 1px rgba($uiza-color-gray-9, 0.2) !default;
+
+// Track
+$uiza-range-track-height: 3px !default;
+$uiza-range-max-height: ($uiza-range-thumb-active-shadow-width * 2) + $uiza-range-thumb-height !default;
+
+// Fill
+$uiza-range-fill-bg: $uiza-color-main !default;
+
+// Type specific
+$uiza-video-range-track-bg: $uiza-video-progress-buffered-bg !default;
+$uiza-audio-range-track-bg: $uiza-audio-progress-buffered-bg !default;
+$uiza-audio-range-thumb-shadow-color: rgba(#000, 0.1) !default;

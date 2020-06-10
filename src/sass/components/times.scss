@@ -1,0 +1,24 @@
+// --------------------------------------------------------------
+// Time
+// --------------------------------------------------------------
+
+.uiza__time {
+  font-size: $uiza-font-size-time;
+}
+
+// Media duration hidden on small screens
+.uiza__time + .uiza__time {
+  // Add a slash in before
+  &::before {
+    content: '\2044';
+    margin-right: $uiza-control-spacing;
+  }
+
+  @media (max-width: $uiza-bp-sm-max) {
+    display: none;
+  }
+}
+
+.uiza--video .uiza__time {
+  text-shadow: 0 1px 1px rgba(#000, 0.15);
+}

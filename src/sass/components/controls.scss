@@ -1,0 +1,168 @@
+// --------------------------------------------------------------
+// Controls
+// --------------------------------------------------------------
+
+// Hide native controls
+.uiza--full-ui ::-webkit-media-controls {
+  display: none;
+}
+
+.uiza__contextmenu {
+  width: 180px;
+  z-index: 99999999;
+  box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  display: none;
+  transition: 0.2s display ease-in;
+  div {
+    padding: ($uiza-control-spacing / 2) $uiza-control-spacing;
+    color: #fff;
+    font-size: small;
+    cursor: pointer;
+  }
+}
+
+.uiza__live {
+  cursor: pointer;
+  border-radius: 17px;
+  background-color: #cbcbcb;
+  padding: 0 8px;
+  &.live {
+    background-color: #e63946;
+    border-radius: 17px;
+  }
+}
+
+.uiza--live,
+.uiza--stats,
+.uiza--watching {
+  position: absolute;
+  color: #fff;
+  text-shadow: 1px 1px #333;
+  font-size: small;
+  left: ($uiza-control-spacing * 2);
+  top: ($uiza-control-spacing * 2);
+  display: none;
+  &.show {
+    display: block;
+  }
+}
+
+.uiza--watching {
+  left: ($uiza-control-spacing * 8);
+  text-shadow: 1px 1px #333;
+}
+
+.uiza--stats {
+  left: unset;
+  right: ($uiza-control-spacing * 2);
+  background-color: rgba($uiza-video-controls-bg, 0.5);
+  padding: $uiza-control-spacing;
+  width: 50vw;
+  max-width: 390px;
+
+  div {
+    position: relative;
+    span {
+      float: right;
+    }
+  }
+}
+
+// Playback controls
+.uiza__controls {
+  align-items: center;
+  display: flex;
+  justify-content: flex-end;
+  text-align: center;
+
+  .uiza__progress__container {
+    flex: 1;
+    min-width: 0; // Fix for Edge issue where content would overflow
+  }
+
+  // Spacing
+  .uiza__controls__item {
+    margin-left: ($uiza-control-spacing / 4);
+
+    &:first-child {
+      margin-left: 0;
+      margin-right: auto;
+    }
+
+    &.uiza__progress__container {
+      padding-left: ($uiza-control-spacing / 4);
+    }
+
+    &.uiza__time {
+      padding: 0 ($uiza-control-spacing / 2);
+    }
+
+    &.uiza__progress__container:first-child,
+    &.uiza__time:first-child,
+    &.uiza__time + .uiza__time {
+      color: white;
+      padding-left: 0;
+    }
+
+    &.uiza__volume {
+      padding-right: ($uiza-control-spacing / 2);
+    }
+
+    &.uiza__volume:first-child {
+      padding-right: 0;
+    }
+  }
+
+  // Hide empty controls
+  &:empty {
+    display: none;
+  }
+}
+
+// Audio controls
+.uiza--audio .uiza__controls {
+  background: $uiza-audio-controls-bg;
+  border-radius: inherit;
+  color: $uiza-audio-control-color;
+  padding: $uiza-control-spacing;
+}
+
+// Video controls
+.uiza--video .uiza__controls {
+  background: linear-gradient(rgba($uiza-video-controls-bg, 0), rgba($uiza-video-controls-bg, 0.7));
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
+  bottom: 0;
+  color: $uiza-video-control-color;
+  left: 0;
+  padding: ($uiza-control-spacing / 2) ($uiza-control-spacing * 2);
+  position: absolute;
+  right: 0;
+  transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+  z-index: 3;
+
+  @media (min-width: $uiza-bp-sm) {
+    padding: ($uiza-control-spacing * 3.5) $uiza-control-spacing $uiza-control-spacing;
+  }
+}
+
+// Hide video controls
+.uiza--video.uiza--hide-controls .uiza__controls {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(100%);
+}
+
+// Some options are hidden by default
+.uiza [data-uiza='captions'],
+.uiza [data-uiza='pip'],
+.uiza [data-uiza='fullscreen'] {
+  display: none;
+}
+.uiza--captions-enabled [data-uiza='captions'],
+.uiza--pip-supported [data-uiza='pip'],
+.uiza--fullscreen-enabled [data-uiza='fullscreen'] {
+  display: inline-block;
+}

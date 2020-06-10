@@ -1,0 +1,12 @@
+<svg width="18px" height="18px" viewBox="0 0 18 18" 
+  xmlns="http://www.w3.org/2000/svg">
+  <!-- plyr -->
+  <!-- <polygon points="7.875 7.17142857 0 1 0 17 7.875 10.8285714 7.875 17 18 9 7.875 1"></polygon> -->
+  <!-- uiza -->
+  <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+    <g id="forward">
+      <polygon id="Stroke-1" stroke-opacity="0.00784313771" stroke="#000000" stroke-width="1.33333335e-11" points="0 0 17.9999989 0 17.9999989 17.9999989 0 17.9999989"></polygon>
+      <path d="M3.375,15 L11.875,9 L3.375,3 L3.375,15 Z M12.3750007,4.125 L12.3750007,13.875 L14.2500007,13.875 L14.2500007,4.125 L12.3750007,4.125 Z" id="Fill-2" fill="#FFFFFF" fill-rule="nonzero"></path>
+    </g>
+  </g>
+</svg>

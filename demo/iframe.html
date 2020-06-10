@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang='en' dir='ltr'>
+
+<head>
+  <meta charset='utf-8'>
+  <title></title>
+  <meta name='viewport' content='width=device-width,initial-scale=1'>
+  
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <link href='./uiza.css' rel='stylesheet'>
+  <link rel="shortcut icon" type="image/png" href="./favicon.ico">
+  <script src='./uiza.min.js'></script>
+</head>
+
+<body>
+  <video id='player' data-uiza-provider=hlsjs crossorigin playsinline autoplay muted></video>
+
+  <script>
+    function urlQuery(query) {
+      query = query.replace(/[\[]/, '\\\[').replace(/[\]]/, '\\\]');
+      var expr = '[\\?&]' + query + '=([^&#]*)';
+      var regex = new RegExp(expr);
+      var results = regex.exec(window.location.href);
+      if (results !== null) {
+        return results[1];
+      } else {
+        return false;
+      }
+    }
+    
+    if (urlQuery('playback')) {
+      var playback = unescape(urlQuery('playback'));
+      var poster = unescape(urlQuery('poster'));
+      var options = poster ? {
+        src: playback,
+        poster: poster
+      } : {
+        src: playback,
+      };
+
+      player = new Uiza(document.getElementById('player'), options);
+    }
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,110 @@
+// --------------------------------------------------------------
+// Control buttons
+// --------------------------------------------------------------
+
+.uiza__control {
+  background: transparent;
+  border: 0;
+  border-radius: $uiza-control-radius;
+  color: inherit;
+  cursor: pointer;
+  flex-shrink: 0;
+  overflow: visible; // IE11
+  padding: $uiza-control-padding;
+  position: relative;
+  transition: all 0.3s ease;
+
+  svg {
+    display: block;
+    fill: currentColor;
+    height: $uiza-control-icon-size;
+    pointer-events: none;
+    width: $uiza-control-icon-size;
+  }
+
+  // Default focus
+  &:focus {
+    outline: 0;
+  }
+
+  // Tab focus
+  &.uiza__tab-focus {
+    @include uiza-tab-focus();
+  }
+}
+
+// Remove any link styling
+a.uiza__control {
+  text-decoration: none;
+
+  &::after,
+  &::before {
+    display: none;
+  }
+}
+
+// Change icons on state change
+.uiza__control:not(.uiza__control--pressed) .icon--pressed,
+.uiza__control.uiza__control--pressed .icon--not-pressed,
+.uiza__control:not(.uiza__control--pressed) .label--pressed,
+.uiza__control.uiza__control--pressed .label--not-pressed {
+  display: none;
+}
+
+// Audio control
+.uiza--audio .uiza__control {
+  &.uiza__tab-focus,
+  &:hover,
+  &[aria-expanded='true'] {
+    background: $uiza-audio-control-bg-hover;
+    // color: $uiza-audio-control-color-hover;
+  }
+}
+
+// Video control
+.uiza--video .uiza__control {
+  // Hover and tab focus
+  &.uiza__tab-focus,
+  &:hover,
+  &[aria-expanded='true'] {
+    background: $uiza-video-control-bg-hover;
+    // color: $uiza-video-control-color-hover;
+  }
+}
+
+// Large play button (video only)
+.uiza__control--overlaid {
+  border: solid 1px $uiza-video-control-color;
+  border-radius: 100%;
+  color: $uiza-video-control-color;
+  display: none;
+  left: 50%;
+  padding: ceil($uiza-control-spacing * 2);
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+
+  // Offset icon to make the play button look right
+  svg {
+    left: 2px;
+    position: relative;
+    -ms-transform: scale(2.5) !important; /* IE 9 */
+    -webkit-transform: scale(2.5) !important; /* Safari prior 9.0 */
+    transform: scale(2.5) !important; /* Standard syntax */
+  }
+
+  &:hover,
+  &:focus {
+    background: $uiza-video-control-bg-hover;
+  }
+}
+
+.uiza--playing .uiza__control--overlaid {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.uiza--full-ui.uiza--video .uiza__control--overlaid {
+  display: block;
+}

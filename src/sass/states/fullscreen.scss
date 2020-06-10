@@ -1,0 +1,34 @@
+// --------------------------------------------------------------
+// Fullscreen
+// --------------------------------------------------------------
+
+.uiza:fullscreen {
+  @include uiza-fullscreen-active();
+}
+
+/* stylelint-disable-next-line */
+.uiza:-webkit-full-screen {
+  @include uiza-fullscreen-active();
+}
+
+/* stylelint-disable-next-line */
+.uiza:-moz-full-screen {
+  @include uiza-fullscreen-active();
+}
+
+/* stylelint-disable-next-line */
+.uiza:-ms-fullscreen {
+  @include uiza-fullscreen-active();
+}
+
+// Fallback for unsupported browsers
+.uiza--fullscreen-fallback {
+  @include uiza-fullscreen-active();
+
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 10000000;
+}

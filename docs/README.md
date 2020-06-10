@@ -1,11 +1,3 @@
-# Uiza Player Web SDK
-
-[![Build Status](https://travis-ci.org/uizaio/uiza-javascript-sdk-player.svg?branch=master)](https://travis-ci.org/uizaio/uiza-javascript-sdk-player)
-[![Coverage Status](https://coveralls.io/repos/github/uizaio/uiza-javascript-sdk-player/badge.svg)](https://coveralls.io/github/uizaio/uiza-javascript-sdk-player)
-[![dependencies Status](https://david-dm.org/uizaio/uiza-javascript-sdk-player/status.svg)](https://david-dm.org/uizaio/uiza-javascript-sdk-player)
-[![devDependencies Status](https://david-dm.org/uizaio/uiza-javascript-sdk-player/dev-status.svg)](https://david-dm.org/uizaio/uiza-javascript-sdk-player?type=dev)
-
-
 Uiza Player is a simple, lightweight, accessible and customizable HTML5, media player that supports [_modern_](#browser-support) browsers.
 
 
@@ -51,13 +43,13 @@ See [initialising](#initialising) for more information on advanced setups.
 You can use our CDN for the JavaScript. There's 2 versions; one with and one without [polyfills](#polyfills). My recommendation would be to manage polyfills seperately as part of your application but to make life easier you can use the polyfilled build.
 
 ```html
-<script src="https://sdk.uiza.io/v5/release/uiza.min.js"></script>
+<script src="https://sdk.uiza.io/v5/alpha-2020051901/uiza.min.js"></script>
 ```
 
 ...or...
 
 ```html
-<script src="https://sdk.uiza.io/v5/release/uiza.polyfilled.js"></script>
+<script src="https://sdk.uiza.io/v5/alpha-2020051901/uiza.polyfilled.js"></script>
 ```
 
 ## CSS
@@ -65,7 +57,7 @@ You can use our CDN for the JavaScript. There's 2 versions; one with and one wit
 Include the `uiza.css` stylsheet into your `<head>`.
 
 ```html
-<link rel="stylesheet" href="https://sdk.uiza.io/v5/release/uiza.css" />
+<link rel="stylesheet" href="https://sdk.uiza.io/v5/alpha-2020051901/uiza.css" />
 ```
 
 ## Example
@@ -81,8 +73,8 @@ example.html
   <title></title>
   <meta name='viewport' content='width=device-width,initial-scale=1'>
 
-  <link href='https://sdk.uiza.io/v5/release/uiza.css' rel='stylesheet'>
-  <script src='https://sdk.uiza.io/v5/release/uiza.min.js'></script>
+  <link href='https://sdk.uiza.io/v5/alpha-2020051901/uiza.css' rel='stylesheet'>
+  <script src='https://sdk.uiza.io/v5/alpha-2020051901/uiza.min.js'></script>
 
 </head>
 
@@ -92,8 +84,9 @@ example.html
   <script>
     var videoStreamURL = 'https://1955897154.rsc.cdn77.org/live/116881ad-3463-4209-b16f-50e0e48add10/master.m3u8?cm=eyJlbnRpdHlfaWQiOiI2ZWUyMzk5NS1mNGFhLTQ1ZDMtOTM5NS0xN2NlNjBlZWJjNDAiLCJlbnRpdHlfc291cmNlIjoibGl2ZSIsImFwcF9pZCI6IjkyYThkMjAzMmZlODQ5MmFhNzc4MDRiNGMyYzUxOWM1In0=';
 
-    ((options) => {
-      window.UZplayer = new Uiza(document.getElementById('playerUz'), options);
+    (async (options) => {
+      let uiza = await new Uiza(document.getElementById('playerUz'), options);
+      return { uiza, time: Date.now() };
     })({ src: videoStreamURL });
   </script>
 
@@ -133,8 +126,8 @@ Example for maxBufferLengthand maxMaxBufferLength.  [Demo here](https://playcode
   <title></title>
   <meta name='viewport' content='width=device-width,initial-scale=1'>
 
-  <link href='https://sdk.uiza.io/v5/release/uiza.css' rel='stylesheet'>
-  <script src='https://sdk.uiza.io/v5/release/uiza.min.js'></script>
+  <link href='https://sdk.uiza.io/v5/alpha-2020051901/uiza.css' rel='stylesheet'>
+  <script src='https://sdk.uiza.io/v5/alpha-2020051901/uiza.min.js'></script>
 
 </head>
 
@@ -144,8 +137,9 @@ Example for maxBufferLengthand maxMaxBufferLength.  [Demo here](https://playcode
   <script>
     var videoStreamURL = 'https://1955897154.rsc.cdn77.org/live/116881ad-3463-4209-b16f-50e0e48add10/master.m3u8?cm=eyJlbnRpdHlfaWQiOiI2ZWUyMzk5NS1mNGFhLTQ1ZDMtOTM5NS0xN2NlNjBlZWJjNDAiLCJlbnRpdHlfc291cmNlIjoibGl2ZSIsImFwcF9pZCI6IjkyYThkMjAzMmZlODQ5MmFhNzc4MDRiNGMyYzUxOWM1In0=';
 
-    ((options) => {
-      window.UZplayer = new Uiza(document.getElementById('playerUz'), options);
+    (async (options) => {
+      let uiza = await new Uiza(document.getElementById('playerUz'), options);
+      return { uiza, time: Date.now() };
     })({
       buffer: {
         maxBufferLength: 10,
@@ -191,8 +185,8 @@ Example for hide button `pip` and `settings`, only override configure to false. 
   <title></title>
   <meta name='viewport' content='width=device-width,initial-scale=1'>
 
-  <link href='https://sdk.uiza.io/v5/release/uiza.css' rel='stylesheet'>
-  <script src='https://sdk.uiza.io/v5/release/uiza.min.js'></script>
+  <link href='https://sdk.uiza.io/v5/alpha-2020051901/uiza.css' rel='stylesheet'>
+  <script src='https://sdk.uiza.io/v5/alpha-2020051901/uiza.min.js'></script>
 
 </head>
 
@@ -202,8 +196,9 @@ Example for hide button `pip` and `settings`, only override configure to false. 
   <script>
     var videoStreamURL = 'https://1955897154.rsc.cdn77.org/live/116881ad-3463-4209-b16f-50e0e48add10/master.m3u8?cm=eyJlbnRpdHlfaWQiOiI2ZWUyMzk5NS1mNGFhLTQ1ZDMtOTM5NS0xN2NlNjBlZWJjNDAiLCJlbnRpdHlfc291cmNlIjoibGl2ZSIsImFwcF9pZCI6IjkyYThkMjAzMmZlODQ5MmFhNzc4MDRiNGMyYzUxOWM1In0=';
 
-    ((options) => {
-      window.UZplayer = new Uiza(document.getElementById('playerUz'), options);
+    (async (options) => {
+      let uiza = await new Uiza(document.getElementById('playerUz'), options);
+      return { uiza, time: Date.now() };
     })({
       ui: {
         pip: false,

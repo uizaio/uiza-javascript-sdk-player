@@ -1,0 +1,31 @@
+// --------------------------------------------------------------
+// Animations
+// --------------------------------------------------------------
+
+@keyframes uiza-progress {
+  to {
+    background-position: $uiza-progress-loading-size 0;
+  }
+}
+
+@keyframes uiza-popup {
+  0% {
+    opacity: 0.5;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes uiza-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

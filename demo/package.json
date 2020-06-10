@@ -1,0 +1,20 @@
+{
+  "name": "uiza-demo",
+  "version": "1.0.0",
+  "description": "Demo for Uiza",
+  "scripts": {
+    "dev": "watch 'npm run build' src",
+    "build": "gulp build"
+  },
+  "devDependencies": {
+    "live-server": "1.2.1",
+    "watch": "1.0.2"
+  },
+  "dependencies": {
+    "core-js": "^3.1.4",
+    "custom-event-polyfill": "^1.0.7",
+    "raven-js": "^3.27.2",
+    "shr-buttons": "2.0.3",
+    "url-polyfill": "^1.1.5"
+  }
+}
