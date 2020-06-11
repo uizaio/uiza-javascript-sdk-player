@@ -3,8 +3,7 @@
 [![Build Status](https://travis-ci.org/uizaio/uiza-javascript-sdk-player.svg?branch=master)](https://travis-ci.org/uizaio/uiza-javascript-sdk-player)
 [![dependencies Status](https://david-dm.org/uizaio/uiza-javascript-sdk-player/status.svg)](https://david-dm.org/uizaio/uiza-javascript-sdk-player)
 [![devDependencies Status](https://david-dm.org/uizaio/uiza-javascript-sdk-player/dev-status.svg)](https://david-dm.org/uizaio/uiza-javascript-sdk-player?type=dev)
-[![](https://data.jsdelivr.com/v1/package/npm/uiza-player-sdk/badge)](https://www.jsdelivr.com/package/npm/uiza-player-sdk)
-
+[![](https://data.jsdelivr.com/v1/package/npm/@uizaio/playerjs/badge)](https://www.jsdelivr.com/package/npm/@uizaio/playerjs)
 
 Uiza Player is a simple, lightweight, accessible and customizable HTML5, media player that supports [_modern_](#browser-support) browsers.
 
