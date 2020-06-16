@@ -7,6 +7,7 @@ import support from './support';
 import { removeElement } from './utils/elements';
 import { triggerEvent } from './utils/events';
 import is from './utils/is';
+import { silencePromise } from './utils/promise';
 import { setAspectRatio } from './utils/style';
 
 const html5 = {
@@ -31,6 +32,11 @@ const html5 = {
 
   // Get quality levels
   getQualityOptions() {
+    // Whether we're forcing all options (e.g. for streaming)
+    if (this.config.quality.forced) {
+      return this.config.quality.options;
+    }
+
     // Get sizes from <source> elements
     return html5.getSources
       .call(this)
@@ -38,12 +44,15 @@ const html5 = {
       .filter(Boolean);
   },
 
-  extend() {
+  setup() {
     if (!this.isHTML5) {
       return;
     }
 
     const player = this;
+
+    // Set speed options from config
+    player.options.speed = player.config.speed.options;
 
     // Set aspect ratio if fixed
     if (!is.empty(this.config.ratio)) {
@@ -61,36 +70,46 @@ const html5 = {
         return source && Number(source.getAttribute('size'));
       },
       set(input) {
-        // Get sources
-        const sources = html5.getSources.call(player);
-        // Get first match for requested size
-        const source = sources.find(s => Number(s.getAttribute('size')) === input);
-
-        // No matching source found
-        if (!source) {
+        if (player.quality === input) {
           return;
         }
 
-        // Get current state
-        const { currentTime, paused, preload, readyState } = player.media;
+        // If we're using an an external handler...
+        if (player.config.quality.forced && is.function(player.config.quality.onChange)) {
+          player.config.quality.onChange(input);
+        } else {
+          // Get sources
+          const sources = html5.getSources.call(player);
+          // Get first match for requested size
+          const source = sources.find(s => Number(s.getAttribute('size')) === input);
 
-        // Set new source
-        player.media.src = source.getAttribute('src');
+          // No matching source found
+          if (!source) {
+            return;
+          }
 
-        // Prevent loading if preload="none" and the current source isn't loaded (#1044)
-        if (preload !== 'none' || readyState) {
-          // Restore time
-          player.once(events.LOADED_META_DATA, () => {
-            player.currentTime = currentTime;
+          // Get current state
+          const { currentTime, paused, preload, readyState, playbackRate } = player.media;
 
-            // Resume playing
-            if (!paused) {
-              player.play();
-            }
-          });
+          // Set new source
+          player.media.src = source.getAttribute('src');
 
-          // Load new source
-          player.media.load();
+          // Prevent loading if preload="none" and the current source isn't loaded (#1044)
+          if (preload !== 'none' || readyState) {
+            // Restore time
+            player.once(events.LOADED_META_DATA, () => {
+              player.speed = playbackRate;
+              player.currentTime = currentTime;
+
+              // Resume playing
+              if (!paused) {
+                silencePromise(player.play());
+              }
+            });
+
+            // Load new source
+            player.media.load();
+          }
         }
 
         // Trigger change event
@@ -102,6 +121,7 @@ const html5 = {
   },
 
   // Cancel current network requests
+  // See https://github.com/sampotts/plyr/issues/174
   cancelRequests() {
     if (!this.isHTML5) {
       return;
@@ -117,6 +137,7 @@ const html5 = {
 
     // Load the new empty source
     // This will cancel existing requests
+    // See https://github.com/sampotts/plyr/issues/174
     this.media.load();
 
     // Debugging

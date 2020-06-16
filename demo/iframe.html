@@ -33,18 +33,27 @@
         return false;
       }
     }
-    
+
     if (urlQuery('playback')) {
       var playback = unescape(urlQuery('playback'));
       var poster = unescape(urlQuery('poster'));
-      var options = poster ? {
-        src: playback,
-        poster: poster
-      } : {
-        src: playback,
-      };
+      var toggleLiveViewer = unescape(urlQuery('toggleLiveViewer')) !== 'false';
+      let options;
 
-      player = new Uiza(document.getElementById('player'), options);
+      if (poster) {
+        options = {
+          src: playback,
+          poster,
+          toggleLiveViewer
+        }
+      } else {
+        options = {
+          src: playback,
+          toggleLiveViewer
+        }
+      }
+
+      window.UZplayer = new Uiza(document.getElementById('player'), options);
     }
   </script>
 

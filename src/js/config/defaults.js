@@ -27,6 +27,9 @@ const defaults = {
   // Embed and Share video
   sharing: true,
 
+  // Toggle Live timeshift
+  timeshift: true,
+
   // Stats
   stats: true,
   statsShow: ['version', 'codecs', 'bitrate', 'buffered', 'bandwidth', 'latency', 'resolution', 'viewport_dropped', 'entity_id', 'app_id'],
@@ -84,6 +87,7 @@ const defaults = {
 
   // Quality default
   quality: {
+    forced: false,
     options: [],
   },
 
@@ -125,7 +129,7 @@ const defaults = {
   fullscreen: {
     enabled: true, // Allow fullscreen?
     fallback: true, // Fallback using full viewport/window
-    iosNative: false, // Use the native fullscreen in iOS (disables custom controls)
+    iosNative: true, // Use the native fullscreen in iOS (disables custom controls)
   },
 
   // Local storage
@@ -136,7 +140,7 @@ const defaults = {
 
   // Default controls
   controls: ['play-large', 'play', 'mute', 'volume', 'current-time', 'progress', 'captions', 'settings', 'pip', 'fullscreen'],
-  settings: ['captions', 'quality', 'speed', 'stats'],
+  settings: ['captions', 'quality', 'speed', 'stats', 'timeshift'],
   contextmenus: ['sharelink', 'embed', 'timeshift', 'stats'],
 
   ui: {
@@ -154,6 +158,10 @@ const defaults = {
     live: true,
     fullscreen: true,
     speed: true,
+
+    // USDK-22 `toggleLiveViewer`, receiving `true` or `false` ( `true` by default ).
+    // If the flag is `false` then we still report the watching events but won't show it on the Player Screen.
+    toggleLiveViewer: true,
   },
 
   // Localisation
@@ -195,8 +203,8 @@ const defaults = {
     frameTitle: 'Player for {title}',
     captions: 'Captions',
     settings: 'Settings',
-    stats: 'Toggle Stats',
-    timeshift: 'Toggle Time Shift',
+    stats: 'Stats',
+    timeshift: 'Time Shift',
     embed: 'Copy embed code',
     sharelink: 'Copy share link',
     menuBack: 'Go back to previous menu',

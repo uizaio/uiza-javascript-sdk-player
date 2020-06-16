@@ -196,6 +196,67 @@
       overflow: hidden;
       padding-left: ceil($uiza-control-padding * 3.5);
       pointer-events: none;
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: ceil($uiza-control-padding * 5);
+        height: ceil($uiza-control-padding * 3);
+
+        input {
+          display: none;
+        }
+      }
+
+      .slider {
+        z-index: 4;
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: 0.4s;
+        transition: 0.4s;
+
+        &:before {
+          position: absolute;
+          content: '';
+          height: ceil($uiza-control-padding * 2);
+          width: ceil($uiza-control-padding * 2);
+          left: ($uiza-control-padding - 3);
+          bottom: ($uiza-control-padding - 3);
+          background-color: white;
+          -webkit-transition: 0.4s;
+          transition: 0.4s;
+        }
+      }
+
+      input {
+        &:checked + .slider {
+          background-color: #e63947;
+        }
+
+        &:focus + .slider {
+          box-shadow: 0 0 1px #e63947;
+        }
+
+        &:checked + .slider:before {
+          -webkit-transform: translateX(ceil($uiza-control-padding * 2));
+          -ms-transform: translateX(ceil($uiza-control-padding * 2));
+          transform: translateX(ceil($uiza-control-padding * 2));
+        }
+      }
+
+      /* Rounded sliders */
+
+      .slider.round {
+        border-radius: ceil($uiza-control-padding * 3);
+
+        &:before {
+          border-radius: 50%;
+        }
+      }
     }
   }
 }

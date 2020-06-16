@@ -727,14 +727,6 @@ class Listeners {
     // Only if one time element is used for both currentTime and duration
     if (player.config.toggleInvert && !is.element(elements.display.duration)) {
       this.bind(elements.display.currentTime, 'click', () => {
-        // Seek to live time
-        if (player.isLive) {
-          try {
-            // Must implement in provider
-            player.seekToLive();
-          } catch (e) {}
-          return;
-        }
         // Do nothing if we're at the start
         if (player.currentTime === 0) {
           return;

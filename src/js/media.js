@@ -48,7 +48,7 @@ const media = {
     if (this.isHlsjs) {
       hlsjs.setup.call(this);
     } else if (this.isHTML5) {
-      html5.extend.call(this);
+      html5.setup.call(this);
     }
   },
 };
