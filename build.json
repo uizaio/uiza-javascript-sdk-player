@@ -33,14 +33,6 @@
     }
   },
   "static": {
-    "hls.min.js": {
-      "src": "./demo/libs/hls.min.js",
-      "dist": "./dist/"
-    },
-    "fingerprint2.min.js": {
-      "src": "./demo/libs/fingerprint2.min.js",
-      "dist": "./dist/"
-    },
     "favicon.ico": {
       "src": "./demo/favicon.ico",
       "dist": "./dist/"
