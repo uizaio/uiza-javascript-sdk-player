@@ -84,6 +84,10 @@ class Uiza {
       display: {},
       progress: {},
       inputs: {},
+      checkbox: {
+        stats: null,
+        timeshift: null,
+      },
       settings: {
         popup: null,
         menu: null,

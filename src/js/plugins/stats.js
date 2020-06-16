@@ -30,14 +30,10 @@ const UzStats = {
       const { detail: { level = -1 } = {} } = event || {};
 
       if (level > -1) {
-        try {
-          const videoBitrate = Math.round(player.hls.levels[level].bitrate / 1000);
-          player.setUiza({
-            bitrate: `${videoBitrate} kbps`,
-          });
-        } catch (error) {
-          this.debug.log(error);
-        }
+        const videoBitrate = Math.round(window.hls.levels[level].bitrate / 1000);
+        player.setUiza({
+          bitrate: `${videoBitrate} kbps`,
+        });
       }
     });
 

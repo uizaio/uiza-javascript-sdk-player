@@ -86,7 +86,6 @@ const hlsjs = {
     } else {
       // eslint-disable-next-line no-undef
       const hls = new Hls({
-        // debug: player.debug.enabled,
         startLevel: this.config.adaptive.startLevel,
         // Buffer config
         maxBufferLength: this.config.buffer.maxBufferLength < 30 ? this.config.buffer.maxBufferLength : 10,
@@ -139,39 +138,15 @@ const hlsjs = {
         sessionStorage.setItem('uiza-last_update_duration', now);
       });
 
-      // Quality
-      Object.defineProperty(player.media, 'quality', {
-        get() {
-          return player.hls.autoLevelEnabled ? -1 : player.hls.levels[player.hls.manualLevel].height;
-        },
-        set(val) {
-          let input = val;
-          if (!player.options.quality.includes(input)) {
-            input = -1;
-          }
-
-          if (input === -1) {
-            player.debug.log('Set quality to auto');
-            player.hls.nextLevel = -1;
-          } else {
-            player.debug.log(`Set quality to manual: ${input}p`);
-            const newLevel = player.hls.levels.map(o => o.height).indexOf(input);
-            player.hls.currentLevel = newLevel;
-          }
-
-          // Trigger change event
-          triggerEvent.call(player, player.media, events.QUALITY_CHANGE, false, {
-            quality: input,
-          });
-        },
-      });
-
       hls.on(window.Hls.Events.MANIFEST_PARSED, () => {
         const qualities = [];
-        const { attrs } = hls.levels[0] || {};
-        if (attrs) {
-          const frameRate = Number(attrs['FRAME-RATE']).toFixed(0);
-          player.setUiza({ codecs: attrs.CODECS, resolution: [attrs.RESOLUTION, '@', frameRate].join('') });
+
+        if (this.isLive) {
+          player.currentTime = player.duration - 1;
+        }
+
+        if (this.uiza.playing) {
+          player.play();
         }
 
         hls.levels.forEach(level => {
@@ -183,13 +158,16 @@ const hlsjs = {
         // player.quality = player.options.quality[0];
         player.quality = -1;
 
-        if (this.isLive) {
-          player.currentTime = player.duration - 1;
-        }
         controls.setQualityMenu.call(player, player.options.quality);
       });
 
       hls.on(window.Hls.Events.LEVEL_LOADED, (event, data) => {
+        const { attrs } = hls.levels[window.hls.currentLevel] || {};
+        if (attrs) {
+          const frameRate = Number(attrs['FRAME-RATE']).toFixed(0);
+          player.setUiza({ codecs: attrs.CODECS, resolution: [attrs.RESOLUTION, '@', frameRate].join('') });
+        }
+
         const { details } = data;
         if (details && details.targetduration) {
           player.setUiza({
@@ -198,7 +176,7 @@ const hlsjs = {
             version: details.version,
             live: details.live,
             vod: details.type === 'VOD',
-            timeshift: details.targetduration * 5 < details.totalduration,
+            // timeshift: details.targetduration * 5 < details.totalduration,
           });
         }
       });

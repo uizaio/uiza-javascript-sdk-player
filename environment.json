@@ -10,7 +10,7 @@
     "liveViewers": "https://development-api.uizadev.io/v1/analytics/live_viewers"
   },
   "production": {
-    "embed": "https://embed.uiza.io/",
+    "embed": "https://uiza.herokuapp.com",
     "analytic": "https://tracking.uiza.sh/v1/events",
     "liveViewers": "https://api.uiza.sh/v1/analytics/live_viewers"
   }

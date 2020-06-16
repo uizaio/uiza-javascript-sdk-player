@@ -428,24 +428,27 @@ const controls = {
       // Event click each context menu
       on(element, 'click', () => {
         switch (menu) {
-          case 'stats':
-            toggleClass(this.elements.stats, 'show', !this.uiza.isShowStats);
-            this.setUiza({ isShowStats: !this.uiza.isShowStats });
-            break;
           case 'embed':
             controls.copyToClipboard.call(this, this.uiza.embed);
             break;
           case 'sharelink':
             controls.copyToClipboard.call(this, this.uiza.shareLink);
             break;
+          case 'stats':
+            this.uiza.stats = !this.uiza.stats;
+            this.elements.checkbox.stats.checked = this.uiza.stats;
+            toggleClass(this.elements.stats, 'show', !this.uiza.isShowStats);
+            this.setUiza({ isShowStats: !this.uiza.isShowStats });
+            break;
           case 'timeshift':
+            this.uiza.timeshift = !this.uiza.timeshift;
+            this.elements.checkbox.timeshift.checked = this.uiza.timeshift;
             if (this.uiza.extras && this.uiza.src) {
-              this.config.src = this.config.src === this.uiza.src ? this.uiza.extras : this.uiza.src;
+              this.config.src = this.uiza.timeshift ? this.uiza.extras : this.uiza.src;
               try {
-                // if (window.hls) { window.hls.destroy();
+                this.uiza.playing = this.playing;
                 window.hls.destroy();
                 hlsjs.ready.call(this);
-                // }
               } catch (e) {
                 this.debug.error(e);
               }
@@ -464,6 +467,9 @@ const controls = {
         contextMenu.appendChild(element);
       }
       if (this.config.stats && menu === 'stats') {
+        contextMenu.appendChild(element);
+      }
+      if (this.config.timeshift && menu === 'timeshift') {
         contextMenu.appendChild(element);
       }
     });
@@ -662,7 +668,7 @@ const controls = {
         toggleClass(this.elements.live, 'live', false);
       }
 
-      if (this.uiza && this.uiza.analytic_total_views > 0) {
+      if (this.uiza && this.config.ui.toggleLiveViewer && this.uiza.analytic_total_views > 0) {
         const watchingNow = this.uiza.analytic_total_views > 1 ? i18n.get('viewers', this.config) : i18n.get('viewer', this.config);
         this.elements.watching.innerText = [this.uiza.analytic_total_views, watchingNow].join(' ');
       }
@@ -682,10 +688,8 @@ const controls = {
       }
     }
 
-    if (this.uiza.timeshift) {
-      // eslint-disable-next-line no-param-reassign
-      target.innerText = controls.formatTime(time, inverted);
-    }
+    // eslint-disable-next-line no-param-reassign
+    target.innerText = this.uiza.timeshift ? controls.formatTime(time, inverted) : '';
   },
 
   // Update volume UI and storage
@@ -1368,6 +1372,8 @@ const controls = {
     this.elements.live = createLive.call(this);
     this.elements.watching = createElement('div', { class: this.config.classNames.watching });
     this.elements.stats = createElement('div', { class: this.config.classNames.stats });
+    this.elements.checkbox.timeshift = createElement('input', { type: 'checkbox' });
+    this.elements.checkbox.stats = createElement('input', { type: 'checkbox' });
     this.elements.contextmenu = createContextMenu.call(this);
 
     this.elements.container.appendChild(this.elements.contextmenu);
@@ -1515,7 +1521,7 @@ const controls = {
           'div',
           extend({}, defaultAttributes, {
             class: `${defaultAttributes.class} uiza__menu`.trim(),
-            hidden: '',
+            // hidden: '',
           }),
         );
 
@@ -1550,15 +1556,16 @@ const controls = {
 
         // Build the menu items
         this.config.settings.forEach(type => {
+          const haveForwar = type === 'timeshift' || type === 'stats' ? `` : ` ${this.config.classNames.control}--forward`;
           // TODO: bundle this with the createMenuItem helper and bindings
           const menuItem = createElement(
-            'button',
+            'div',
             extend(getAttributesFromSelector(this.config.selectors.buttons.settings), {
-              type: 'button',
-              class: `${this.config.classNames.control} ${this.config.classNames.control}--forward`,
+              // type: 'button',
+              class: `${this.config.classNames.control}${haveForwar}`,
               role: 'menuitem',
               'aria-haspopup': true,
-              hidden: '',
+              // hidden: '',
             }),
           );
 
@@ -1567,7 +1574,27 @@ const controls = {
 
           // Show menu on click
           on(menuItem, 'click', () => {
-            showMenuPanel.call(this, type, false);
+            if (type === 'timeshift') {
+              this.uiza.timeshift = !this.uiza.timeshift;
+              this.elements.checkbox.timeshift.checked = this.uiza.timeshift;
+              if (this.uiza.extras && this.uiza.src) {
+                this.config.src = this.uiza.timeshift ? this.uiza.extras : this.uiza.src;
+                try {
+                  this.uiza.playing = this.playing;
+                  window.hls.destroy();
+                  hlsjs.ready.call(this);
+                } catch (e) {
+                  this.debug.error(e);
+                }
+              }
+            } else if (type === 'stats') {
+              this.uiza.stats = !this.uiza.stats;
+              this.elements.checkbox.stats.checked = this.uiza.stats;
+              toggleClass(this.elements.stats, 'show', !this.uiza.isShowStats);
+              this.setUiza({ isShowStats: !this.uiza.isShowStats });
+            } else {
+              showMenuPanel.call(this, type, false);
+            }
           });
 
           const flex = createElement('span', null, i18n.get(type, this.config));
@@ -1577,7 +1604,14 @@ const controls = {
           });
 
           // Speed contains HTML entities
-          value.innerHTML = data[type];
+          if (type === 'timeshift' || type === 'stats') {
+            const checkbox = createElement('LABEL', { class: 'switch' });
+            checkbox.appendChild(this.elements.checkbox[type]);
+            checkbox.appendChild(createElement('span', { class: 'slider round' }));
+            value.appendChild(checkbox);
+          } else {
+            value.innerHTML = data[type];
+          }
 
           flex.appendChild(value);
           menuItem.appendChild(flex);
@@ -1734,6 +1768,8 @@ const controls = {
         seektime: this.config.seekTime,
         speed: this.speed,
         quality: this.quality,
+        stats: this.uiza.stats,
+        timeshift: this.uiza.timeshift,
         captions: captions.getLabel.call(this),
       });
       update = false;

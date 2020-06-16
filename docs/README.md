@@ -165,6 +165,7 @@ ui: {
     volume: true,
     currentTime: true,
     fastForward: true,
+    toggleLiveViewer: true,
     progress: true,
     captions: true,
     settings: true,
