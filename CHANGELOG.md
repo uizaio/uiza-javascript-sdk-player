@@ -3,6 +3,16 @@
 [comment]: <> (+ Bugs fixed block, sort by a, b, c,...)
 [comment]: <> (+ Demo page, sort by a, b, c,...)
 
+## v5.20.06-staging
+
+- Add context menu on right click
+- Add [toggle UI](https://github.com/uizaio/uiza-javascript-sdk-player/blob/master/README.md#customizing-the-ui-button)
+- Add plugin HLS stats
+- Add plugin timeshift for HLS livestream
+- Add plugin Analytics for show viewer/live button
+- Add plugin Embed and Share
+
+
 ## v5.0.0-alpha.20200102 (2020-01-02) - Local release
 
 - Fix: playback be URL encoded
