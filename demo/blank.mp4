@@ -1,0 +1,11 @@
+--2020-06-17 17:10:51--  https://cdn.plyr.io/static/blank.mp4
+Resolving cdn.plyr.io (cdn.plyr.io)... 151.101.65.186, 151.101.129.186, 151.101.193.186, ...
+Connecting to cdn.plyr.io (cdn.plyr.io)|151.101.65.186|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1777 (1.7K) [video/mp4]
+Saving to: ‘blank.mp4.1’
+
+     0K .                                                     100% 20.4M=0s
+
+2020-06-17 17:10:51 (20.4 MB/s) - ‘blank.mp4.1’ saved [1777/1777]
+
