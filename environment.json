@@ -1,8 +1,8 @@
 {
   "development": {
     "embed": "https://uiza.herokuapp.com",
-    "analytic": "http://localhost:3000/events",
-    "liveViewers": "http://localhost:3000/analytics/live_viewers"
+    "analytic": "https://tracking-dev.uizadev.io/v1/events",
+    "liveViewers": "https://development-api.uizadev.io/v1/analytics/live_viewers"
   },
   "staging": {
     "embed": "https://uiza.herokuapp.com",
