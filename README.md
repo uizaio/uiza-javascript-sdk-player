@@ -161,6 +161,23 @@ Example for maxBufferLengthand maxMaxBufferLength.  [Demo here](https://playcode
 
 ## Customizing the UI button
 
+| Attribute | Default | Description |
+| -- | --  | -- |
+| `restart` | `true` | Only for VOD, Set the value to `false` to disable restart button on the video player |
+| `rewind` | `true` | Only for VOD, Set the value to `false` to disable rewind button on the video player |
+| `play` | `true` | Set the value to `false` to disable play button on the video player. Remember: should autoplay on video tag |
+| `mute` | `true` | Set the value to `false` to disable mute button on the video player |
+| `volume` | `true` | Set the value to `false` to disable volume button on the video player |
+| `currentTime` | `true` | Set the value to `false` to hide the current time on the video player |
+| `toggleLiveViewer` | `true` | Set the value to `false` to hide the viewer count on the video player |
+| `progress` | `true` | Set the value to `false` to hide the progress bar on the video player |
+| `fastForward` | `true` | Set the value to `false` to disable the fast forward button on the video player |
+| `captions` | `true` | Set the value to `false` to disable the captions button on the video player |
+| `settings` | `true` | Set the value to `false` to disable the settings button on the video player |
+| `pip` | `true` | Set the value to `false` to disable the picture-in-picture button on the video player |
+| `live` | `true` | Set the value to `false` to hide the live button on the video player |
+| `fullscreen` | `true` | Set the value to `false` to disable the fullscreen button on the video player |
+| `speed` | `true` | Set the value to `false` to disable the speed button on the video player |
 ```
 ui: {
     restart: true,
@@ -169,6 +186,7 @@ ui: {
     mute: true,
     volume: true,
     currentTime: true,
+    toggleLiveViewer: true,
     fastForward: true,
     progress: true,
     captions: true,
