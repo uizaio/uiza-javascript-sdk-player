@@ -5,7 +5,11 @@
 import { version as VERSION } from '../../../package.json';
 import events from '../events';
 
-const CLOUD_URL = `https://cdn.jsdelivr.net/npm/@uizaio/playerjs@${VERSION}/dist/`;
+const env = '__ENVIRONMENT__';
+const CLOUD_URL = {
+  production: `https://cdn.jsdelivr.net/npm/@uizaio/playerjs@${VERSION}/dist`,
+  staging: `https://playerjs-dev.uizadev.io/${VERSION}`,
+};
 
 const defaults = {
   // Disable
@@ -80,7 +84,7 @@ const defaults = {
   // Sprite (for icons)
   loadSprite: true,
   iconPrefix: 'uiza',
-  iconUrl: `${CLOUD_URL}uiza.svg`,
+  iconUrl: `${CLOUD_URL[env]}/uiza.svg`.replace(/([^:]\/)\/+/g, '$1'),
 
   // Blank video (used to prevent errors on source change)
   blankVideo: '',

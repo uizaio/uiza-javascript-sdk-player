@@ -5,6 +5,8 @@
 /* eslint no-console: "off" */
 
 const env = process.env.NODE_ENV;
+const version = process.env.npm_package_version;
+
 const fs = require('fs');
 const path = require('path');
 const gulp = require('gulp');
@@ -128,7 +130,8 @@ gulp.task(tasks.clean, done => {
 
 // JavaScript
 Object.entries(build.js).forEach(([filename, entry]) => {
-  const { dist, formats, namespace, polyfill, src } = entry;
+  const { formats, namespace, polyfill, src } = entry;
+  const dist = env === 'staging' ? `${entry.dist}/${version}` : entry.dist;
 
   formats.forEach(format => {
     const name = `js:${filename}:${format}`;
@@ -175,6 +178,7 @@ Object.entries(build.js).forEach(([filename, entry]) => {
             extname: `.${extension}`,
           }),
         )
+        .pipe(replace('__ENVIRONMENT__', env))
         .pipe(replace('__UIZA_EMBED_API__', endPoint.embed))
         .pipe(replace('__API_ANALYTIC_POST__', endPoint.analytic))
         .pipe(replace('__API_ANALYTIC_GET__', endPoint.liveViewers))
@@ -191,7 +195,8 @@ Object.entries(build.js).forEach(([filename, entry]) => {
 
 // CSS
 Object.entries(build.css).forEach(([filename, entry]) => {
-  const { dist, src } = entry;
+  const { src } = entry;
+  const dist = env === 'staging' ? `${entry.dist}/${version}` : entry.dist;
   const name = `css:${filename}`;
   tasks.css.push(name);
 
@@ -213,7 +218,8 @@ Object.entries(build.css).forEach(([filename, entry]) => {
 
 // SVG Sprites
 Object.entries(build.sprite).forEach(([filename, entry]) => {
-  const { dist, src } = entry;
+  const { src } = entry;
+  const dist = env === 'staging' ? `${entry.dist}/${version}` : entry.dist;
   const name = `sprite:${filename}`;
   tasks.sprite.push(name);
 
