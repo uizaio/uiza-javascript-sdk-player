@@ -38,10 +38,10 @@
       var playback = unescape(urlQuery('playback'));
       var poster = unescape(urlQuery('poster'));
       var toggleLiveViewer = unescape(urlQuery('toggleLiveViewer')) !== 'false';
-      let options;
+      var UZoptions;
 
       if (poster) {
-        options = {
+        UZoptions = {
           src: playback,
           poster,
           ui:{
@@ -49,7 +49,7 @@
           }
         }
       } else {
-        options = {
+        UZoptions = {
           src: playback,
           ui:{
             toggleLiveViewer
@@ -57,7 +57,7 @@
         }
       }
 
-      window.UZplayer = new Uiza(document.getElementById('player'), options);
+      window.UZplayer = new Uiza(document.getElementById('player'), UZoptions);
     }
   </script>
 
