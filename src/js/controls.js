@@ -1561,8 +1561,7 @@ const controls = {
           const menuItem = createElement(
             'div',
             extend(getAttributesFromSelector(this.config.selectors.buttons.settings), {
-              // type: 'button',
-              class: `${this.config.classNames.control}${haveForwar}`,
+              class: `${this.config.classNames.control}${haveForwar} ${type}`,
               role: 'menuitem',
               'aria-haspopup': true,
               // hidden: '',

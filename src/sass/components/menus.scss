@@ -78,6 +78,13 @@
       user-select: none;
       width: 100%;
 
+      &.timeshift {
+        display: none;
+        &.show {
+          display: block;
+        }
+      }
+
       > span {
         align-items: inherit;
         display: flex;

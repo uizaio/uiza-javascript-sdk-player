@@ -37,6 +37,14 @@
       "src": "./demo/favicon.ico",
       "dist": "./dist/"
     },
+    "hls.min.js": {
+      "src": "./demo/libs/hls.min.js",
+      "dist": "./dist/"
+    },
+    "fingerprint2.min.js": {
+      "src": "./demo/libs/fingerprint2.min.js",
+      "dist": "./dist/"
+    },
     "blank.mp4": {
       "src": "./demo/blank.mp4",
       "dist": "./dist/"
