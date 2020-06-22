@@ -2,7 +2,6 @@ dist
 node_modules
 
 .DS_Store
-*.mp4
 npm-debug.log
 yarn-error.log
 yarn.lock

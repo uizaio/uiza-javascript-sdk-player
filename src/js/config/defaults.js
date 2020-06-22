@@ -5,7 +5,12 @@
 import { version as VERSION } from '../../../package.json';
 import events from '../events';
 
-const CLOUD_URL = `https://cdn.jsdelivr.net/npm/@uizaio/playerjs@${VERSION}/dist/`;
+const env = '__ENVIRONMENT__';
+const CLOUD_URL = {
+  production: `https://cdn.jsdelivr.net/npm/@uizaio/playerjs@${VERSION}/dist`,
+  staging: `https://playerjs-dev.uizadev.io/${VERSION}`,
+  development: `http://localhost:8080/`,
+};
 
 const defaults = {
   // Disable
@@ -80,7 +85,7 @@ const defaults = {
   // Sprite (for icons)
   loadSprite: true,
   iconPrefix: 'uiza',
-  iconUrl: `${CLOUD_URL}uiza.svg`,
+  iconUrl: `${CLOUD_URL[env]}/uiza.svg`.replace(/([^:]\/)\/+/g, '$1'),
 
   // Blank video (used to prevent errors on source change)
   blankVideo: '',
@@ -228,10 +233,10 @@ const defaults = {
   // URLs
   urls: {
     hlsjs: {
-      sdk: `https://cdnjs.cloudflare.com/ajax/libs/hls.js/0.13.2/hls.min.js`,
+      sdk: `${CLOUD_URL[env]}/hls.min.js`.replace(/([^:]\/)\/+/g, '$1'),
     },
     fingerprintjs2: {
-      sdk: `https://cdnjs.cloudflare.com/ajax/libs/fingerprintjs2/2.1.0/fingerprint2.min.js`,
+      sdk: `${CLOUD_URL[env]}/fingerprint2.min.js`.replace(/([^:]\/)\/+/g, '$1'),
     },
   },
 
