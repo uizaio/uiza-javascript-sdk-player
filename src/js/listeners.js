@@ -434,10 +434,10 @@ class Listeners {
         'contextmenu',
         event => {
           event.preventDefault();
-          controls.setContextMenu.call(player, {
-            left: event.pageX,
-            top: event.pageY,
-          });
+          // controls.setContextMenu.call(player, {
+          //   left: event.pageX,
+          //   top: event.pageY,
+          // });
         },
         false,
       );
