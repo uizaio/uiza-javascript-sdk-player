@@ -125,7 +125,7 @@ const hlsjs = {
           }
 
           // Toggle progress for non-timeshift and timeshift livestream
-          if (!this.uiza.timeshift) {
+          if (!this.uiza.timeshift && !this.uiza.vod) {
             toggleClass(this.elements.progress, 'show', false);
           } else {
             toggleClass(this.elements.progress, 'show', true);
@@ -146,6 +146,8 @@ const hlsjs = {
             extras: player.config.src.replace('master.m3u8', 'extras/master.m3u8').replace('extras/extras', 'extras'),
           });
           toggleClass(this.elements.settings.buttons.timeshift, 'show', true);
+        } else {
+          toggleClass(this.elements.progress, 'show', true);
         }
 
         const qualities = [];
