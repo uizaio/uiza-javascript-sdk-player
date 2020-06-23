@@ -127,8 +127,10 @@ const hlsjs = {
           // Toggle progress for non-timeshift and timeshift livestream
           if (!this.uiza.timeshift) {
             toggleClass(this.elements.progress, 'show', false);
+            toggleClass(this.elements.settings.buttons.speed, 'hide', true);
           } else {
             toggleClass(this.elements.progress, 'show', true);
+            toggleClass(this.elements.settings.buttons.speed, 'hide', false);
           }
         }
       });
