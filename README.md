@@ -1,9 +1,13 @@
 # Uiza Player Web SDK
 
+[![License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://npmjs.org/package/@uizaio/playerjs)
+[![NPM version](http://img.shields.io/npm/dm/@uizaio/playerjs.svg?style=flat)](https://npmjs.org/package/@uizaio/playerjs)
 [![Build Status](https://travis-ci.org/uizaio/uiza-javascript-sdk-player.svg?branch=master)](https://travis-ci.org/uizaio/uiza-javascript-sdk-player)
 [![dependencies Status](https://david-dm.org/uizaio/uiza-javascript-sdk-player/status.svg)](https://david-dm.org/uizaio/uiza-javascript-sdk-player)
 [![devDependencies Status](https://david-dm.org/uizaio/uiza-javascript-sdk-player/dev-status.svg)](https://david-dm.org/uizaio/uiza-javascript-sdk-player?type=dev)
 [![](https://data.jsdelivr.com/v1/package/npm/@uizaio/playerjs/badge)](https://www.jsdelivr.com/package/npm/@uizaio/playerjs)
+
+[![NPM](https://nodei.co/npm/@uizaio/playerjs.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/@uizaio/playerjs/)
 
 Uiza Player is a simple, lightweight, accessible and customizable HTML5, media player that supports [_modern_](#browser-support) browsers.
 
