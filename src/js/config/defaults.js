@@ -30,7 +30,7 @@ const defaults = {
   analytic: true,
 
   // Embed and Share video
-  sharing: true,
+  sharing: false,
 
   // Toggle Live timeshift
   timeshift: true,
