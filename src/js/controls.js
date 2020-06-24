@@ -675,6 +675,11 @@ const controls = {
     }
 
     if (this.config.stats && this.uiza.isShowStats && this.config.statsShow) {
+      const droppedOf = i18n.get('dropped_of', this.config);
+      this.setUiza({
+        viewport_dropped: `${this.media.clientWidth}x${this.media.clientHeight} / ${this.uiza.currentDropped} ${droppedOf}`,
+      });
+
       const container = createElement('div');
       const table = createElement('TABLE');
       this.config.statsShow.forEach(k => {
