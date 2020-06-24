@@ -54,6 +54,7 @@ const endPoint = environment[env];
 // Info from package
 // ------------------------------------
 const { browserslist: browsers } = pkg;
+const now = new Date();
 const minSuffix = '.min';
 
 // Paths
@@ -178,6 +179,7 @@ Object.entries(build.js).forEach(([filename, entry]) => {
             extname: `.${extension}`,
           }),
         )
+        .pipe(replace('__BUILDTIME__', now.toISOString()))
         .pipe(replace('__ENVIRONMENT__', env))
         .pipe(replace('__UIZA_EMBED_API__', endPoint.embed))
         .pipe(replace('__API_ANALYTIC_POST__', endPoint.analytic))

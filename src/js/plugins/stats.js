@@ -10,16 +10,18 @@ const UzStats = {
     const player = this;
     const droppedOf = i18n.get('dropped_of', this.config);
     player.setUiza({
+      currentDropped: 0,
       viewport_dropped: `${player.media.clientWidth}x${player.media.clientHeight} / 0 ${droppedOf}`,
     });
 
-    // Listen frame drop
     player.on(events.FPS_DROP, event => {
       const { detail: data = undefined } = event || {};
 
       if (data) {
-        const { currentDropped } = data;
+        let { currentDropped } = data;
+        currentDropped += this.uiza.currentDropped;
         player.setUiza({
+          currentDropped,
           viewport_dropped: `${player.media.clientWidth}x${player.media.clientHeight} / ${currentDropped} ${droppedOf}`,
         });
       }
