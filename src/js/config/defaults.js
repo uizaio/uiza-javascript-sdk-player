@@ -13,6 +13,9 @@ const CLOUD_URL = {
 };
 
 const defaults = {
+  // Time of build
+  build: '__BUILDTIME__',
+
   // Disable
   enabled: true,
 
