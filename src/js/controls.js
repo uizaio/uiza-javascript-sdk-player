@@ -672,24 +672,24 @@ const controls = {
         const watchingNow = this.uiza.analytic_total_views > 1 ? i18n.get('viewers', this.config) : i18n.get('viewer', this.config);
         this.elements.watching.innerText = [this.uiza.analytic_total_views, watchingNow].join(' ');
       }
+    }
 
-      if (this.config.stats && this.uiza.isShowStats && this.config.statsShow) {
-        const container = createElement('div');
-        const table = createElement('TABLE');
-        this.config.statsShow.forEach(k => {
-          const row = table.insertRow(0);
-          const label = row.insertCell(0);
-          const value = row.insertCell(1);
-          label.innerHTML = i18n.get(k, this.config);
-          value.innerHTML = this.uiza[k];
-        });
-        container.appendChild(table);
-        this.elements.stats.innerHTML = container.innerHTML;
-      }
+    if (this.config.stats && this.uiza.isShowStats && this.config.statsShow) {
+      const container = createElement('div');
+      const table = createElement('TABLE');
+      this.config.statsShow.forEach(k => {
+        const row = table.insertRow(0);
+        const label = row.insertCell(0);
+        const value = row.insertCell(1);
+        label.innerHTML = i18n.get(k, this.config);
+        value.innerHTML = this.uiza[k];
+      });
+      container.appendChild(table);
+      this.elements.stats.innerHTML = container.innerHTML;
     }
 
     // eslint-disable-next-line no-param-reassign
-    target.innerText = this.uiza.timeshift ? controls.formatTime(time, inverted) : '';
+    target.innerText = this.uiza.timeshift || this.uiza.vod ? controls.formatTime(time, inverted) : '';
   },
 
   // Update volume UI and storage
