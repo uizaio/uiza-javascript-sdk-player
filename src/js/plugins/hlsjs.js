@@ -174,13 +174,15 @@ const hlsjs = {
         controls.setQualityMenu.call(player, player.options.quality);
       });
 
-      hls.on(window.Hls.Events.LEVEL_LOADED, (event, data) => {
+      hls.on(window.Hls.Events.FRAG_PARSED, (event, data) => {
         const { attrs } = hls.levels[window.hls.currentLevel] || {};
         if (attrs) {
           const frameRate = Number(attrs['FRAME-RATE']).toFixed(0);
           player.setUiza({ codecs: attrs.CODECS, resolution: [attrs.RESOLUTION, '@', frameRate].join('') });
         }
+      });
 
+      hls.on(window.Hls.Events.LEVEL_LOADED, (event, data) => {
         const { details } = data;
         if (details && details.targetduration) {
           player.setUiza({
