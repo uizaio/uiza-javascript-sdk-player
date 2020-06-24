@@ -10,33 +10,36 @@ cache:
   - node_modules
 before_install: if [[ `npm -v` != 6* ]]; then npm i -g npm@6; fi
 script: npm run build:prod
+after_success:
+  - ./node_modules/.bin/http-server dist && node saucelabs.js
+
+addons:
+  sauce_connect: true
 
 jobs:
   include:
-    - stage: nightly build
-      node_js: "12"
-      script: npm run build:stage
-      deploy:
-        provider: s3
-        skip_cleanup: true
-        bucket: uiza-development-playerjs-dev-uizadev-io-origin
-        region: ap-southeast-1
-        local_dir: dist
-        on:
-          branch: build/*
-
-    - stage: npm release
-      node_js: "12"
-      script: npm run build:prod
-      deploy:
-        provider: npm
-        skip_cleanup: true
-        on:
-          branch: release/*
-        email: developer@uiza.io
-        api_key:
-          secure: "uzQzYiU3OqYPTcjGCHj/DaE5MYAUqrvnlN4auUBUon+hWVZPU4k5oJr1iwMVI0AbcuB0MUzhPSHLdiowKy+rwdNYTcLPksBxG7F5DBmwyb+q7SUDlIpWapk8SoBl4PLXbjPhT/8ur0YpiV4FJO+O7RdZpUITmKrSCMVliFxw6NltwQyRGZ16B3I2RwS1/C9QnpN6LaKTMr6cJlnuPRYecuzgR92/uWzKyPvH7VLpOcyDOye2I/aamIR/OJVGGvFhlnvDssFbTb0LzE7V/VFnutotjwCMYBrxVCCeeayMsJO8rNyZdy2BvsQuB5dLJ39884aVy0R2R0ejiiTk0fg2xMD0d1pvDIJbpJrtg4Swhg9X007xDzodVnkHygVRkoNJz8En0GSR1UcRTi4BboY9vPp5v5CoBRe5ZN+yaCmLG01XPDDUpqbawGbH3STMGGrvp/aJEFJENtiyzYa/7wFytBd9+OxEWuASDmSBzft3LHi/54NMxjJiGD5n626kfr1iYqE6qpJxPqNea8MkmWU3FXRvXJWGoRjgJPA5q2YwCns8coXLxZN/JdTUeWibrB41oXIilamD/raox369OYA7AN1J4AadUQi0XbGBeArVTzBxOZo/ICCXNg0lkxdXPQfA6PUGJb3BhJdG8bbBbFqFXj78ciPdpuRtHjGt532Xxzc="
-
+  - stage: nightly build
+    node_js: '12'
+    script: npm run build:stage
+    deploy:
+      provider: s3
+      skip_cleanup: true
+      bucket: uiza-development-playerjs-dev-uizadev-io-origin
+      region: ap-southeast-1
+      local_dir: dist
+      on:
+        branch: build/*
+  - stage: npm release
+    node_js: '12'
+    script: npm run build:prod
+    deploy:
+      provider: npm
+      skip_cleanup: true
+      on:
+        branch: release/*
+      email: developer@uiza.io
+      api_key:
+        secure: uzQzYiU3OqYPTcjGCHj/DaE5MYAUqrvnlN4auUBUon+hWVZPU4k5oJr1iwMVI0AbcuB0MUzhPSHLdiowKy+rwdNYTcLPksBxG7F5DBmwyb+q7SUDlIpWapk8SoBl4PLXbjPhT/8ur0YpiV4FJO+O7RdZpUITmKrSCMVliFxw6NltwQyRGZ16B3I2RwS1/C9QnpN6LaKTMr6cJlnuPRYecuzgR92/uWzKyPvH7VLpOcyDOye2I/aamIR/OJVGGvFhlnvDssFbTb0LzE7V/VFnutotjwCMYBrxVCCeeayMsJO8rNyZdy2BvsQuB5dLJ39884aVy0R2R0ejiiTk0fg2xMD0d1pvDIJbpJrtg4Swhg9X007xDzodVnkHygVRkoNJz8En0GSR1UcRTi4BboY9vPp5v5CoBRe5ZN+yaCmLG01XPDDUpqbawGbH3STMGGrvp/aJEFJENtiyzYa/7wFytBd9+OxEWuASDmSBzft3LHi/54NMxjJiGD5n626kfr1iYqE6qpJxPqNea8MkmWU3FXRvXJWGoRjgJPA5q2YwCns8coXLxZN/JdTUeWibrB41oXIilamD/raox369OYA7AN1J4AadUQi0XbGBeArVTzBxOZo/ICCXNg0lkxdXPQfA6PUGJb3BhJdG8bbBbFqFXj78ciPdpuRtHjGt532Xxzc=
 notifications:
   slack:
     secure: SQJkIhHTiX6Ls5u7eajm1PqsOnWQ8dclxsKFY5aUuuxWSHG0/R6tEvyktelAOhBQKZ1p8B4gWs4HjbDRWh5SeogytOyAvrhKJaX0+DG+eJoHOVBD8xzow/p4Gj6u9bMwlWYc+uj8WnJPMqYcx2lciWIL156CEsd/CbnvFQOlA2hdMH+gLd46nb4bBHc2YS6qC6YHqvsSZPiMLaPo8hk/LDZeMC3+g0oChLRyJIaC5bIh17lVAgTccbYy4jBooM3ryckYnVZvhKlAPfgZ8bP/kXia7FMkOi8vhtoi3V8pekif44ii4CfQg3+QEpn9cGSHfBrveIvqOAwribdh4YvqAOfviapbGnJBtsfX3L/rlCYfUirfhEJ6Njz9zKpTo7yafdvndd/47zkKz3cNzpyrodIqG24DIsB700Gphyss9s95rf68dItKME9ZlGxRTBGbI+J33FvEfAnCHhxB8bFnWQYc/GIXd06jhHVSXgugBesNgeZYuKt1k3UP8L7x4DK/Yk+q3ZGHktOmNbESw5LK8D1E/elvhqM4SgitTtVvi+d/9fMUlTdcxRPUGqH87Bt285eWUlWyGlpKECBhcs0Y2XOukkw3pszUBVugAaueppFj/pJJt0a9zYTZHCr8tmJCKYY3wK3uvnpsVLb19vIwUybQ5xbsCpu9y4SVvjRurxA=
@@ -44,3 +47,5 @@ env:
   global:
   - secure: y+CKDdq8cAOlNQV6DEfqwy4C0eZVB42+1qIUTNZ5b1McrW0pqZPMTrgui5NG5uzYR1ijCA2safJCtz0BCOuZOlzRt9sw2c2E06uwDhK8oGo+bioCWLUZDdx1XQWByDVkjtb7nGbQxk0oL0iFJgi3dvH9yXBoQ+yQC/XuWwfeeDC5Rooqh9rI1taZE6LB7m3NylI9ibqePOzIZe0OuShA7fHfYxbzVFBXF/yH3AbEDrhZPpX1GidToMxl191jKydVF5XNmSpsnJJorbhpxZDXLJzxl5O81wGDcMoHweAMNqzYr7VoBljhQYy9uZnyq0AbOsmd6HErdOd+J3Ld7SlrEBx/21/Tk0u0nJwKt1hjbps1Rb1EG7luGGlKbUfdAf683zb+mHiClO0Eb7cF6vxmu9/znuHlb9Pa3bUfijXxUDV19p4WrX/ViAuWK6rhRbPVoataipA2Fcg/jQgYR+4E01NB8gYf8h6R/SbNP6E82zjXbJ6+DbmySVuHK/SkSypiQl+LBb8QJZ/ytsVSuHrl+U2ZqsD4WDnawbFDtKGGQWtwk8rVxy9gfN0VrnVGL9gPgKGxelf19YcUwRGGVtlaeS2ZiltC9+xskcY/4/uTBiGjWo3MY4hbcQ6aOMoDNGS11rPz1IK9F23BpQVikRgRlDDkP+jDCNgOAHdHouQoGhQ=
   - secure: vZ9nLdr8k6NuTXSP/7loHVTYC6rw6e/+VibmTNpskk6ip5jNYrzEhLdPNzs+J8zvxJAfcb1esVYBQ1zdsBWY8UKdY9I+TWOru9clQcNz9BSfvC5T1Tn36ZVM0+2ZmgifZ7SRjOi/cAAM0Yo7dNsgTSk6yFasAfKqsVk4bUdXZcARWoCUHcpVHosbsHQ0lG5u12BUbzBEOOhx3BN1U6wGIJ3omU16V2Vz6pXg3HpFgruEm89eTLuCUwUOiYyDPbtyIu7utuv3DfnP3oSpUvsTZxfvWqoWWy64g0HBv2wz8kx04B1bP8XZrqFHyVHMhnNJIzbKBWd/WckWDZgBMhjiK8uZFw7wE2ODPrLvqcqlKucYh5duooV00P2qUzlgOlpuS+OIgnOWZEFOsrKzPjR8kFjzjeIFgeFJ2Xi2FC8J6FVjjMW1OQeLliRNOJpeu2ClYumlLO62Qh4M/CqU1qDTkrllq2AN884LacFPlhgL/ZMtL2ph/9cENw3dWirTlYLFONrNpxRRdkeg1AYE4OhAEn6BrJsWHbEyPyV1pNzObhz7Cm4+IQGiNrSX8VBPKi91H/Kv8N8dzWQOmRKz9uB12r84BO7nqL1GlbCzpOTuXNVxt484T9qhIMEtMbssnwv1qdQkt80hCpxkDrCZNnEFSAdr3G0ojzwVhx+MDWlnD18=
+  - secure: f5o6X3DEsQvmoPDn3axgXE5FVQKXmYVG72XMGlgDg5QYTvAy1xsuht5gkXG1W6D2+sVCHuPRLRIT1wxJft1b7O3R20xyMsC466RbL1AmjNqKGMlgnjtsupWZ2VJ5XHYPYf+7y83z8rsazsqeehzJ/Qxfx6rZhiTf25oX+H7KHpAFKPfvEH340xe89e+hT2KVrCOI35QxIHUEA1i6XcXdNNRaFSM6pA2DxTnXDcEnnlArpidk7YLHl9peIm28vOzQmK8tH/ZgpfjB07SrM8Rvplb3G2OobE01KI16UN5DtQUCAHDeLDxoMFvCQJh7u1YHuywERIt10h4ZX0wxhsFcBROYN8JgZkD1od8EhEhStzVFT49o93UvJsQXL14Iu8dNdrff1a3JM3TKcH11vyq0IeFLVR7xhjTnGp0a3iQRR6Wgxf2BHdq7lJ20e6TptdgOrXxGN5bL0BwwJe/xofbz4HJ3QdVH5eH/mh+WuCCw2+amYx9oGm+0hAlJzt29nYQbDPgtklQPqblRhtqARq8ol3VyL+tUG/l+kbq3yH4gzm/39m/Bv7i4dq/WzNvGuBmehLMGJ6AjoZwvqS+tg3JvaS6/u/PcYFRtHH59L+sGDLP7bXEUNEghwFgVQNu1rQwESPJHCLrzKLwo87e7wp4KplUJ3d0hA2VX8q/eG6sfQ7Y=
+  - secure: Tk5f0poeoYfdT4T67B2ody15wUQ39h40WAhsBycJaM625HxG0xSzsobSCg7+JwvrIEAtezywiDqO0H1/TohNq+8ZDTY7yo0gsLeKJ76Z8+g9K0ghTdHyPasy9eOB7go0NqUoeduTjdIKFC/Fc4SHmGGYGWHvhDiYW/XIpbLePRGFUyf1rmROsrIwxqU7Kyh+Y+cr/IXLNlGPAyekpoFzei0lftkGEQnEG+MoqnM9MmsR8IiJKlKtCDZmlfgabOBjW23EVN0q+s+Cjm6iowkOh99E36IJpdWDiwDQ3MnLCFtHE25afAAWslq7zdBJxRWOz4NEnfKo6ils+SIa5+cOaMpMLupkZbA9R7kU2x8WCVqiuKxSchaB7HG08tVYXeZOSZaVAhtosk05XTJEAz7HGgLlmiElPzmHZq1VpE4v1XTM9LLXimiwSlMKZr+RT15tRG56Zwsshw7gA1huhEC+SjqNBS/yxlCR+IR2kGg9LXBkuMoVqJWqP5UctKq2TrpsRZtjHqXr606C9rkWgVTUcTwfUs5dP1bbJUA5M6ZBKHJzM1ijQQPI0PmbZLeWCIq7DFoyfmHn1V/CLa+kLBUdr6cUpzOzCsypnueKVz6cDzdu5JLuvYmYm+4L+YkONLaWH78EQ6NsR55gjK6XbnvuYJrQGDA9JUcysgP3Q+D02aI=
