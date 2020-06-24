@@ -22,7 +22,7 @@ if (username && accessKey) {
     .usingServer(urlSaucelabs)
     .build();
 
-  browser.get('http://127.0.0.1:8080/');
+  browser.get('https://playerjs-dev.uizadev.io/test.html');
 
   // describe('testing javascript in the browser', function() {
   //   beforeEach(function() {

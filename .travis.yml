@@ -11,18 +11,17 @@ cache:
 before_install: if [[ `npm -v` != 6* ]]; then npm i -g npm@6; fi
 script: npm run build:prod
 
-addons:
-  sauce_connect: true
-
 jobs:
   include:
   - stage: saucelabs test
     node_js: '12'
     script: npm run build
     after_success:
-      - ./node_modules/.bin/http-server dist && node saucelabs.js
+      - node saucelabs.js
     on:
-      branch: develop
+      branch: develop    
+    addons:
+      sauce_connect: true
   - stage: nightly build
     node_js: '12'
     script: npm run build:stage
