@@ -4,7 +4,6 @@
 
 import captions from './captions';
 import controls from './controls';
-import events from './events';
 import support from './support';
 import browser from './utils/browser';
 import { getElement, toggleClass } from './utils/elements';
@@ -57,7 +56,7 @@ const ui = {
     // Remove native controls
     ui.toggleNativeControls.call(this);
 
-    // Setup captions for HTML5 and Hlsjs
+    // Setup captions for HTML5
     if (this.isHTML5) {
       captions.setup.call(this);
     }
@@ -87,11 +86,10 @@ const ui = {
     ui.checkPlaying.call(this);
 
     // Check for picture-in-picture support
-    toggleClass(
-      this.elements.container,
-      this.config.classNames.pip.supported,
-      (support.pip && this.isHTML5 && this.isVideo) || (support.pip && this.isHlsjs),
-    );
+    toggleClass(this.elements.container, this.config.classNames.pip.supported, support.pip && this.isHTML5 && this.isVideo);
+
+    // Check for airplay support
+    toggleClass(this.elements.container, this.config.classNames.airplay.supported, support.airplay && this.isHTML5);
 
     // Add iOS class
     toggleClass(this.elements.container, this.config.classNames.isIos, browser.isIos);
@@ -104,7 +102,7 @@ const ui = {
 
     // Ready event at end of execution stack
     setTimeout(() => {
-      triggerEvent.call(this, this.media, events.READY);
+      triggerEvent.call(this, this.media, 'ready');
     }, 0);
 
     // Set the title
@@ -138,6 +136,7 @@ const ui = {
     });
 
     // Set iframe title
+    // https://github.com/sampotts/plyr/issues/124
     if (this.isEmbed) {
       const iframe = getElement.call(this, 'iframe');
 
@@ -167,7 +166,7 @@ const ui = {
     }
 
     // Set property synchronously to respect the call order
-    this.media.setAttribute('poster', poster);
+    this.media.setAttribute('data-poster', poster);
 
     // Wait until ui is ready
     return (
@@ -192,10 +191,12 @@ const ui = {
         .then(() => {
           Object.assign(this.elements.poster.style, {
             backgroundImage: `url('${poster}')`,
-            // Reset backgroundSize as well (since it can be set to "cover" for padded thumbnails)
+            // Reset backgroundSize as well (since it can be set to "cover" for padded thumbnails for youtube)
             backgroundSize: '',
           });
+
           ui.togglePoster.call(this, true);
+
           return poster;
         })
     );
@@ -211,10 +212,11 @@ const ui = {
     // Set state
     Array.from(this.elements.buttons.play || []).forEach(target => {
       Object.assign(target, { pressed: this.playing });
+      target.setAttribute('aria-label', i18n.get(this.playing ? 'pause' : 'play', this.config));
     });
 
     // Only update controls on non timeupdate events
-    if (is.event(event) && event.type === events.TIME_UPDATE) {
+    if (is.event(event) && event.type === 'timeupdate') {
       return;
     }
 
@@ -224,7 +226,7 @@ const ui = {
 
   // Check if media is loading
   checkLoading(event) {
-    this.loading = [events.STALLED, events.WAITING].includes(event.type);
+    this.loading = ['stalled', 'waiting'].includes(event.type);
 
     // Clear timer
     clearTimeout(this.timers.loading);
@@ -254,6 +256,26 @@ const ui = {
       this.toggleControls(
         Boolean(force || this.loading || this.paused || controlsElement.pressed || controlsElement.hover || recentTouchSeek),
       );
+    }
+  },
+
+  // Migrate any custom properties from the media to the parent
+  migrateStyles() {
+    // Loop through values (as they are the keys when the object is spread 🤔)
+    Object.values({ ...this.media.style })
+      // We're only fussed about Plyr specific properties
+      .filter(key => !is.empty(key) && key.startsWith('--uiza'))
+      .forEach(key => {
+        // Set on the container
+        this.elements.container.style.setProperty(key, this.media.style.getPropertyValue(key));
+
+        // Clean up from media element
+        this.media.style.removeProperty(key);
+      });
+
+    // Remove attribute if empty
+    if (is.empty(this.media.style)) {
+      this.media.removeAttribute('style');
     }
   },
 };

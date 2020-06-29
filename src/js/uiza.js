@@ -210,7 +210,6 @@ class Uiza {
         this.type = types.video;
 
         break;
-
       case 'video':
       case 'audio':
         this.type = type;
@@ -221,7 +220,7 @@ class Uiza {
           this.provider = this.media.getAttribute(this.config.attributes.provider);
           this.media.removeAttribute(this.config.attributes.provider);
         } else {
-          this.provider = providers.html5;
+          this.provider = getProviderByUrl(this.config.src) || providers.html5;
         }
 
         // Get config from attributes
@@ -267,6 +266,10 @@ class Uiza {
 
     // Store reference
     this.media.uiza = this;
+
+    this.setQualityMenu = controls.setQualityMenu;
+    this.setCaptionsMenu = controls.setCaptionsMenu;
+    this.updateSetting = controls.updateSetting;
 
     // Wrap media
     if (!is.element(this.elements.container)) {
@@ -341,11 +344,15 @@ class Uiza {
    * Types and provider helpers
    */
   get isHTML5() {
-    return this.provider === providers.html5 || this.isHlsjs;
+    return this.provider === providers.html5 || providers.hlsjs || providers.dashjs;
   }
 
   get isHlsjs() {
     return this.provider === providers.hlsjs;
+  }
+
+  get isDashjs() {
+    return this.provider === providers.dashjs;
   }
 
   get isVideo() {

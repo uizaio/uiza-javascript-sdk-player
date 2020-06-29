@@ -3,14 +3,14 @@
 // ==========================================================================
 
 import controls from './controls';
-import events from './events';
 import ui from './ui';
 import { repaint } from './utils/animation';
 import browser from './utils/browser';
-import { getElement, getElements, matches, toggleClass, toggleHidden } from './utils/elements';
+import { getElement, getElements, matches, toggleClass } from './utils/elements';
 import { off, on, once, toggleListener, triggerEvent } from './utils/events';
 import is from './utils/is';
-import { setAspectRatio } from './utils/style';
+import { silencePromise } from './utils/promise';
+import { getAspectRatio, setAspectRatio } from './utils/style';
 
 class Listeners {
   constructor(player) {
@@ -100,7 +100,7 @@ class Listeners {
         case 75:
           // Space and K key
           if (!repeat) {
-            player.togglePlay();
+            silencePromise(player.togglePlay());
           }
           break;
 
@@ -136,22 +136,29 @@ class Listeners {
           player.fullscreen.toggle();
           break;
 
+        case 67:
+          // C key
+          if (!repeat) {
+            player.toggleCaptions();
+          }
+          break;
+
         case 76:
           // L key
           player.loop = !player.loop;
           break;
 
         /* case 73:
-            this.setLoop('start');
-            break;
+                    this.setLoop('start');
+                    break;
 
-        case 76:
-            this.setLoop();
-            break;
+                case 76:
+                    this.setLoop();
+                    break;
 
-        case 79:
-            this.setLoop('end');
-            break; */
+                case 79:
+                    this.setLoop('end');
+                    break; */
 
         default:
           break;
@@ -222,16 +229,18 @@ class Listeners {
 
     // Delay the adding of classname until the focus has changed
     // This event fires before the focusin event
-    this.focusTimer = setTimeout(() => {
-      const focused = document.activeElement;
+    if (event.type !== 'focusout') {
+      this.focusTimer = setTimeout(() => {
+        const focused = document.activeElement;
 
-      // Ignore if current focus element isn't inside the player
-      if (!elements.container.contains(focused)) {
-        return;
-      }
+        // Ignore if current focus element isn't inside the player
+        if (!elements.container.contains(focused)) {
+          return;
+        }
 
-      toggleClass(document.activeElement, player.config.classNames.tabFocus, true);
-    }, 10);
+        toggleClass(document.activeElement, player.config.classNames.tabFocus, true);
+      }, 10);
+    }
   }
 
   // Global window & document listeners
@@ -250,7 +259,7 @@ class Listeners {
     once.call(player, document.body, 'touchstart', this.firstTouch);
 
     // Tab focus detection
-    toggleListener.call(player, document.body, 'keydown focus blur', this.setTabFocus, toggle, false, true);
+    toggleListener.call(player, document.body, 'keydown focus blur focusout', this.setTabFocus, toggle, false, true);
   }
 
   // Container listeners
@@ -264,36 +273,45 @@ class Listeners {
     }
 
     // Toggle controls on mouse events and entering fullscreen
-    on.call(
-      player,
-      elements.container,
-      `mousemove mouseleave touchstart touchmove ${events.ENTER_FULLSCREEN} ${events.EXIT_FULLSCREEN}`,
-      event => {
-        const { controls: controlsElement } = elements;
+    on.call(player, elements.container, 'mousemove mouseleave touchstart touchmove enterfullscreen exitfullscreen', event => {
+      const { controls: controlsElement } = elements;
 
-        // Remove button states for fullscreen
-        if (controlsElement && event.type === events.ENTER_FULLSCREEN) {
-          controlsElement.pressed = false;
-          controlsElement.hover = false;
-        }
+      // Remove button states for fullscreen
+      if (controlsElement && event.type === 'enterfullscreen') {
+        controlsElement.pressed = false;
+        controlsElement.hover = false;
+      }
 
-        // Show, then hide after a timeout unless another control event occurs
-        const show = ['touchstart', 'touchmove', 'mousemove'].includes(event.type);
-        let delay = 0;
+      // Show, then hide after a timeout unless another control event occurs
+      const show = ['touchstart', 'touchmove', 'mousemove'].includes(event.type);
+      let delay = 0;
 
-        if (show) {
-          ui.toggleControls.call(player, true);
-          // Use longer timeout for touch devices
-          delay = player.touch ? 3000 : 2000;
-        }
+      if (show) {
+        ui.toggleControls.call(player, true);
+        // Use longer timeout for touch devices
+        delay = player.touch ? 3000 : 2000;
+      }
 
-        // Clear timer
-        clearTimeout(timers.controls);
+      // Clear timer
+      clearTimeout(timers.controls);
 
-        // Set new timer to prevent flicker when seeking
-        timers.controls = setTimeout(() => ui.toggleControls.call(player, false), delay);
-      },
-    );
+      // Set new timer to prevent flicker when seeking
+      timers.controls = setTimeout(() => ui.toggleControls.call(player, false), delay);
+    });
+
+    // Set a gutter for Vimeo
+    const setGutter = (ratio, padding, toggle) => {
+      if (!player.isVimeo || player.config.vimeo.premium) {
+        return;
+      }
+
+      const target = player.elements.wrapper.firstChild;
+      const [, y] = ratio;
+      const [videoX, videoY] = getAspectRatio.call(player);
+
+      target.style.maxWidth = toggle ? `${(y / videoY) * videoX}px` : null;
+      target.style.margin = toggle ? '0 auto' : null;
+    };
 
     // Resize on fullscreen change
     const setPlayerSize = measure => {
@@ -313,7 +331,7 @@ class Listeners {
       timers.resized = setTimeout(setPlayerSize, 50);
     };
 
-    on.call(player, elements.container, `${events.ENTER_FULLSCREEN} ${events.EXIT_FULLSCREEN}`, event => {
+    on.call(player, elements.container, 'enterfullscreen exitfullscreen', event => {
       const { target, usingNative } = player.fullscreen;
 
       // Ignore events not from target
@@ -326,16 +344,19 @@ class Listeners {
         return;
       }
 
-      const isEnter = event.type === events.ENTER_FULLSCREEN;
+      const isEnter = event.type === 'enterfullscreen';
       // Set the player size when entering fullscreen to viewport size
       const { padding, ratio } = setPlayerSize(isEnter);
 
-      // If not using native fullscreen, we need to check for resizes of viewport
+      // Set Vimeo gutter
+      setGutter(ratio, padding, isEnter);
+
+      // If not using native browser fullscreen API, we need to check for resizes of viewport
       if (!usingNative) {
         if (isEnter) {
-          on.call(player, window, events.RESIZE, resized);
+          on.call(player, window, 'resize', resized);
         } else {
-          off.call(player, window, events.RESIZE, resized);
+          off.call(player, window, 'resize', resized);
         }
       }
     });
@@ -347,51 +368,34 @@ class Listeners {
     const { elements } = player;
 
     // Time change on media
-    on.call(player, player.media, `${events.TIME_UPDATE} ${events.SEEKING} ${events.SEEKED}`, event =>
-      controls.timeUpdate.call(player, event),
-    );
+    on.call(player, player.media, 'timeupdate seeking seeked', event => controls.timeUpdate.call(player, event));
 
     // Display duration
-    on.call(player, player.media, `${events.DURATION_CHANGE} ${events.LOADED_DATA} ${events.LOADED_META_DATA}`, event =>
-      controls.durationUpdate.call(player, event),
-    );
-
-    // Check for audio tracks on load
-    // We can't use `loadedmetadata` as it doesn't seem to have audio tracks at that point
-    on.call(player, player.media, `${events.CAN_PLAY} ${events.LOADED_DATA}`, () => {
-      toggleHidden(elements.volume, !player.hasAudio);
-      toggleHidden(elements.buttons.mute, !player.hasAudio);
-    });
+    on.call(player, player.media, 'durationchange loadeddata loadedmetadata', event => controls.durationUpdate.call(player, event));
 
     // Handle the media finishing
-    on.call(player, player.media, events.ENDED, () => {
+    on.call(player, player.media, 'ended', () => {
       // Show poster on end
       if (player.isHTML5 && player.isVideo && player.config.resetOnEnd) {
         // Restart
         player.restart();
+
+        // Call pause otherwise IE11 will start playing the video again
+        player.pause();
       }
     });
 
     // Check for buffer progress
-    on.call(player, player.media, `${events.PROGRESS} ${events.PLAYING} ${events.SEEKING} ${events.SEEKED}`, event =>
-      controls.updateProgress.call(player, event),
-    );
+    on.call(player, player.media, 'progress playing seeking seeked', event => controls.updateProgress.call(player, event));
 
     // Handle volume changes
-    on.call(player, player.media, events.VOLUME_CHANGE, event => controls.updateVolume.call(player, event));
+    on.call(player, player.media, 'volumechange', event => controls.updateVolume.call(player, event));
 
     // Handle play/pause
-    on.call(
-      player,
-      player.media,
-      `${events.PLAYING} ${events.PLAY} ${events.PAUSE} ${events.ENDED} ${events.EMPTIED} ${events.TIME_UPDATE}`,
-      event => ui.checkPlaying.call(player, event),
-    );
+    on.call(player, player.media, 'playing play pause ended emptied timeupdate', event => ui.checkPlaying.call(player, event));
 
     // Loading state
-    on.call(player, player.media, `${events.WAITING} ${events.CAN_PLAY} ${events.SEEKED} ${events.PLAYING}`, event =>
-      ui.checkLoading.call(player, event),
-    );
+    on.call(player, player.media, 'waiting canplay seeked playing', event => ui.checkLoading.call(player, event));
 
     // Click video
     if (player.supported.ui && player.config.clickToPlay && !player.isAudio) {
@@ -419,9 +423,21 @@ class Listeners {
 
         if (player.ended) {
           this.proxy(event, player.restart, 'restart');
-          this.proxy(event, player.play, events.PLAY);
+          this.proxy(
+            event,
+            () => {
+              silencePromise(player.play());
+            },
+            'play',
+          );
         } else {
-          this.proxy(event, player.togglePlay, events.PLAY);
+          this.proxy(
+            event,
+            () => {
+              silencePromise(player.togglePlay());
+            },
+            'play',
+          );
         }
       });
     }
@@ -434,19 +450,13 @@ class Listeners {
         'contextmenu',
         event => {
           event.preventDefault();
-          if (player.config.sharing) {
-            controls.setContextMenu.call(player, {
-              left: event.pageX,
-              top: event.pageY,
-            });
-          }
         },
         false,
       );
     }
 
     // Volume change
-    on.call(player, player.media, events.VOLUME_CHANGE, () => {
+    on.call(player, player.media, 'volumechange', () => {
       // Save to storage
       player.storage.set({
         volume: player.volume,
@@ -455,7 +465,7 @@ class Listeners {
     });
 
     // Speed change
-    on.call(player, player.media, events.RATE_CHANGE, () => {
+    on.call(player, player.media, 'ratechange', () => {
       // Update UI
       controls.updateSetting.call(player, 'speed');
 
@@ -464,9 +474,14 @@ class Listeners {
     });
 
     // Quality change
-    on.call(player, player.media, events.QUALITY_CHANGE, event => {
+    on.call(player, player.media, 'qualitychange', event => {
       // Update UI
       controls.updateSetting.call(player, 'quality', null, event.detail.quality);
+    });
+
+    // Update download link when ready and if quality changes
+    on.call(player, player.media, 'ready qualitychange', () => {
+      controls.setDownloadUrl.call(player);
     });
 
     // Proxy events to container
@@ -477,7 +492,7 @@ class Listeners {
       let { detail = {} } = event;
 
       // Get error details from media
-      if (event.type === events.ERROR) {
+      if (event.type === 'error') {
         detail = player.media.error;
       }
 
@@ -498,7 +513,7 @@ class Listeners {
     }
 
     // Only call default handler if not prevented in custom handler
-    if (returned && is.function(defaultHandler)) {
+    if (returned !== false && is.function(defaultHandler)) {
       defaultHandler.call(player, event);
     }
   }
@@ -522,7 +537,14 @@ class Listeners {
     // Play/pause toggle
     if (elements.buttons.play) {
       Array.from(elements.buttons.play).forEach(button => {
-        this.bind(button, 'click', player.togglePlay, 'play');
+        this.bind(
+          button,
+          'click',
+          () => {
+            silencePromise(player.togglePlay());
+          },
+          'play',
+        );
       });
     }
 
@@ -548,6 +570,16 @@ class Listeners {
     // Captions toggle
     this.bind(elements.buttons.captions, 'click', () => player.toggleCaptions());
 
+    // Download
+    this.bind(
+      elements.buttons.download,
+      'click',
+      () => {
+        triggerEvent.call(player, player.media, 'download');
+      },
+      'download',
+    );
+
     // Fullscreen toggle
     this.bind(
       elements.buttons.fullscreen,
@@ -568,13 +600,23 @@ class Listeners {
       'pip',
     );
 
-    // Settings menu - click toggle
-    this.bind(elements.buttons.settings, 'click', event => {
-      // Prevent the document click listener closing the menu
-      event.stopPropagation();
+    // Airplay
+    this.bind(elements.buttons.airplay, 'click', player.airplay, 'airplay');
 
-      controls.toggleMenu.call(player, event);
-    });
+    // Settings menu - click toggle
+    this.bind(
+      elements.buttons.settings,
+      'click',
+      event => {
+        // Prevent the document click listener closing the menu
+        event.stopPropagation();
+        event.preventDefault();
+
+        controls.toggleMenu.call(player, event);
+      },
+      null,
+      false,
+    ); // Can't be passive as we're preventing default
 
     // Settings menu - keyboard toggle
     // We have to bind to keyup otherwise Firefox triggers a click when a keydown event handler shifts focus
@@ -644,7 +686,7 @@ class Listeners {
       // If we're done seeking and it was playing, resume playback
       if (play && done) {
         seek.removeAttribute(attribute);
-        player.play();
+        silencePromise(player.play());
       } else if (!done && player.playing) {
         seek.setAttribute(attribute, '');
         player.pause();
@@ -693,7 +735,7 @@ class Listeners {
     });
 
     // Hide thumbnail preview - on mouse click, mouse leave, and video play/seek. All four are required, e.g., for buffering
-    this.bind(elements.progress, 'mouseleave click', () => {
+    this.bind(elements.progress, 'mouseleave touchend click', () => {
       const { previewThumbnails } = player;
 
       if (previewThumbnails && previewThumbnails.loaded) {
@@ -754,6 +796,17 @@ class Listeners {
     this.bind(elements.controls, 'mouseenter mouseleave', event => {
       elements.controls.hover = !player.touch && event.type === 'mouseenter';
     });
+
+    // Also update controls.hover state for any non-player children of fullscreen element (as above)
+    if (elements.fullscreen) {
+      Array.from(elements.fullscreen.children)
+        .filter(c => !c.contains(elements.container))
+        .forEach(child => {
+          this.bind(child, 'mouseenter mouseleave', event => {
+            elements.controls.hover = !player.touch && event.type === 'mouseenter';
+          });
+        });
+    }
 
     // Update controls.pressed state (used for ui.toggleControls to avoid hiding when interacting)
     this.bind(elements.controls, 'mousedown mouseup touchstart touchend touchcancel', event => {

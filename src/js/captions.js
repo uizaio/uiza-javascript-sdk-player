@@ -3,7 +3,6 @@
 // TODO: Create as class
 // ==========================================================================
 
-import controls from './controls';
 import events from './events';
 import support from './support';
 import { dedupe } from './utils/arrays';
@@ -27,8 +26,8 @@ const captions = {
     // Only Hlsjs and HTML5 video supported at this point
     if (!this.isVideo || (this.isHTML5 && !support.textTracks)) {
       // Clear menu and hide
-      if (is.array(this.config.controls) && this.config.controls.includes('settings') && this.config.settings.includes('captions')) {
-        controls.setCaptionsMenu.call(this);
+      if (is.array(this.config.controls) && this.config.this.includes('settings') && this.config.settings.includes('captions')) {
+        this.setCaptionsMenu.call(this);
       }
 
       return;
@@ -138,7 +137,7 @@ const captions = {
 
     // Update available languages in list
     if ((this.config.controls || []).includes('settings') && this.config.settings.includes('captions')) {
-      controls.setCaptionsMenu.call(this);
+      this.setCaptionsMenu.call(this);
     }
   },
 
@@ -188,7 +187,7 @@ const captions = {
       this.captions.toggled = active;
 
       // Update settings menu
-      controls.updateSetting.call(this, 'captions');
+      this.updateSetting.call(this, 'captions');
 
       // Trigger event (not used internally)
       triggerEvent.call(this, this.media, active ? events.CAPTIONS_ENABLED : events.CAPTION_DISABLED);
@@ -225,7 +224,7 @@ const captions = {
       this.captions.currentTrackNode = track;
 
       // Update settings menu
-      controls.updateSetting.call(this, 'captions');
+      this.updateSetting.call(this, 'captions');
 
       // When passive, don't override user preferences
       if (!passive) {
