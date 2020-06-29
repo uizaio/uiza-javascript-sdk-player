@@ -153,8 +153,6 @@ const hlsjs = {
           toggleClass(this.elements.progress, 'show', true);
         }
 
-        const qualities = [];
-
         if (this.isLive) {
           player.currentTime = player.duration - 1;
         }
@@ -163,15 +161,10 @@ const hlsjs = {
           player.play();
         }
 
-        hls.levels.forEach(level => {
-          qualities.push(level.height);
-        });
-
+        const qualities = hls.levels.map(level => level.height);
         player.options.quality = [-1, ...qualities]; // clone array without ref
         player.config.quality.options = qualities[0] < qualities[qualities.length - 1] ? [-1, ...qualities.reverse()] : [-1, ...qualities]; // force support quality from manifest
-        // player.quality = player.options.quality[0];
         player.quality = -1;
-
         controls.setQualityMenu.call(player, player.options.quality);
       });
 

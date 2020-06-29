@@ -3,7 +3,14 @@
 [comment]: <> (+ Bugs fixed block, sort by a, b, c,...)
 [comment]: <> (+ Demo page, sort by a, b, c,...)
 
-## v5.20.06-staging
+## v5.20.7
+
+- Add auto provider by url src
+- Support play with [DashJS](https://github.com/Dash-Industry-Forum/dash.js/wiki)
+- Fixbug change quality with hlsjs
+
+
+## v5.20.06rc6
 
 - Add context menu on right click
 - Add [toggle UI](https://github.com/uizaio/uiza-javascript-sdk-player/blob/master/README.md#customizing-the-ui-button)

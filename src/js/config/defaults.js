@@ -12,6 +12,10 @@ const CLOUD_URL = {
   development: `http://localhost:8080/`,
 };
 
+const stripSplash = str => {
+  return str.replace(/([^:]\/)\/+/g, '$1');
+};
+
 const defaults = {
   // Time of build
   build: '__BUILDTIME__',
@@ -88,15 +92,16 @@ const defaults = {
   // Sprite (for icons)
   loadSprite: true,
   iconPrefix: 'uiza',
-  iconUrl: `${CLOUD_URL[env]}/uiza.svg`.replace(/([^:]\/)\/+/g, '$1'),
+  iconUrl: stripSplash(`${CLOUD_URL[env]}/uiza.svg`),
 
   // Blank video (used to prevent errors on source change)
-  blankVideo: '',
+  blankVideo: stripSplash(`${CLOUD_URL[env]}/blank.mp4`),
 
   // Quality default
   quality: {
     forced: false,
     options: [],
+    onChange: null,
   },
 
   // Set loops
@@ -163,6 +168,7 @@ const defaults = {
     captions: true,
     settings: true,
     pip: true,
+    airplay: true,
     live: true,
     fullscreen: true,
     speed: true,
@@ -236,10 +242,13 @@ const defaults = {
   // URLs
   urls: {
     hlsjs: {
-      sdk: `${CLOUD_URL[env]}/hls.min.js`.replace(/([^:]\/)\/+/g, '$1'),
+      sdk: stripSplash(`${CLOUD_URL[env]}/hls.min.js`),
+    },
+    dashjs: {
+      sdk: stripSplash(`${CLOUD_URL[env]}/dash.min.js`),
     },
     fingerprintjs2: {
-      sdk: `${CLOUD_URL[env]}/fingerprint2.min.js`.replace(/([^:]\/)\/+/g, '$1'),
+      sdk: stripSplash(`${CLOUD_URL[env]}/fingerprint2.min.js`),
     },
   },
 
@@ -256,6 +265,7 @@ const defaults = {
     captions: null,
     fullscreen: null,
     pip: null,
+    airplay: null,
     speed: null,
     quality: null,
     loop: null,
@@ -285,6 +295,7 @@ const defaults = {
       captions: '[data-uiza="captions"]',
       fullscreen: '[data-uiza="fullscreen"]',
       pip: '[data-uiza="pip"]',
+      airplay: '[data-uiza="airplay"]',
       settings: '[data-uiza="settings"]',
       loop: '[data-uiza="loop"]',
     },
@@ -355,6 +366,10 @@ const defaults = {
     pip: {
       supported: 'uiza--pip-supported',
       active: 'uiza--pip-active',
+    },
+    airplay: {
+      supported: 'uiza--airplay-supported',
+      active: 'uiza--airplay-active',
     },
     tabFocus: 'uiza__tab-focus',
     previewThumbnails: {
