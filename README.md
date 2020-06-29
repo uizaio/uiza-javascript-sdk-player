@@ -38,7 +38,7 @@ Uiza Player extends upon the standard [HTML5 media element](https://developer.mo
 ### HLS Stream Video
 
 ```html
-<video id='playerUz' data-uiza-provider=hlsjs crossorigin playsinline autoplay></video>
+<video id='playerUz' crossorigin playsinline autoplay></video>
 <script>
   var videoStreamURL = 'https://1955897154.rsc.cdn77.org/live/116881ad-3463-4209-b16f-50e0e48add10/master.m3u8?cm=eyJlbnRpdHlfaWQiOiI2ZWUyMzk5NS1mNGFhLTQ1ZDMtOTM5NS0xN2NlNjBlZWJjNDAiLCJlbnRpdHlfc291cmNlIjoibGl2ZSIsImFwcF9pZCI6IjkyYThkMjAzMmZlODQ5MmFhNzc4MDRiNGMyYzUxOWM1In0=';
 
@@ -90,7 +90,7 @@ example.html
 </head>
 
 <body>
-  <video id='playerUz' data-uiza-provider=hlsjs crossorigin playsinline autoplay></video>
+  <video id='playerUz' crossorigin playsinline autoplay></video>
 
   <script>
     var videoStreamURL = 'https://1955897154.rsc.cdn77.org/live/116881ad-3463-4209-b16f-50e0e48add10/master.m3u8?cm=eyJlbnRpdHlfaWQiOiI2ZWUyMzk5NS1mNGFhLTQ1ZDMtOTM5NS0xN2NlNjBlZWJjNDAiLCJlbnRpdHlfc291cmNlIjoibGl2ZSIsImFwcF9pZCI6IjkyYThkMjAzMmZlODQ5MmFhNzc4MDRiNGMyYzUxOWM1In0=';
@@ -126,7 +126,7 @@ Maximum buffer length in seconds. Hls.js will never exceed this value, even if m
 
 hls.js tries to buffer up to a maximum number of bytes (6 MB by default) rather than to buffer up to a maximum nb of seconds. this is to mimic the browser behaviour (the buffer eviction algorithm is starting after the browser detects that video buffer size reaches a limit in bytes)
 
-Example for maxBufferLengthand maxMaxBufferLength.  [Demo here](https://playcode.io/608594/)
+Example for maxBufferLengthand maxMaxBufferLength.  [Demo here](https://playcode.io/628085)
 ```html
 <!DOCTYPE html>
 <html lang='en' dir='ltr'>
@@ -142,7 +142,7 @@ Example for maxBufferLengthand maxMaxBufferLength.  [Demo here](https://playcode
 </head>
 
 <body>
-  <video id='playerUz' data-uiza-provider=hlsjs crossorigin playsinline autoplay></video>
+  <video id='playerUz' crossorigin playsinline autoplay></video>
 
   <script>
     var videoStreamURL = 'https://1955897154.rsc.cdn77.org/live/116881ad-3463-4209-b16f-50e0e48add10/master.m3u8?cm=eyJlbnRpdHlfaWQiOiI2ZWUyMzk5NS1mNGFhLTQ1ZDMtOTM5NS0xN2NlNjBlZWJjNDAiLCJlbnRpdHlfc291cmNlIjoibGl2ZSIsImFwcF9pZCI6IjkyYThkMjAzMmZlODQ5MmFhNzc4MDRiNGMyYzUxOWM1In0=';
@@ -218,7 +218,7 @@ Example for hide button `pip` and `settings`, only override configure to false. 
 </head>
 
 <body>
-  <video id='playerUz' data-uiza-provider=hlsjs crossorigin playsinline autoplay muted></video>
+  <video id='playerUz' crossorigin playsinline autoplay muted></video>
 
   <script>
     var videoStreamURL = 'https://1955897154.rsc.cdn77.org/live/116881ad-3463-4209-b16f-50e0e48add10/master.m3u8?cm=eyJlbnRpdHlfaWQiOiI2ZWUyMzk5NS1mNGFhLTQ1ZDMtOTM5NS0xN2NlNjBlZWJjNDAiLCJlbnRpdHlfc291cmNlIjoibGl2ZSIsImFwcF9pZCI6IjkyYThkMjAzMmZlODQ5MmFhNzc4MDRiNGMyYzUxOWM1In0=';
