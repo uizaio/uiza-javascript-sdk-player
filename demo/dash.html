@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang='en' dir='ltr'>
+
+<head>
+  <meta charset='utf-8'>
+  <title></title>
+  <meta name='viewport' content='width=device-width,initial-scale=1'>
+
+  <link href='./uiza.css' rel='stylesheet'>
+  <script src='./uiza.min.js'></script>
+
+</head>
+
+<body>
+  <video id='UZPlayer' autoplay crossorigin playsinline muted></video>
+
+  <script>
+    const videoSrc = 'https://dash.akamaized.net/envivio/EnvivioDash3/manifest.mpd';
+    window.UZPlayer = new Uiza(document.getElementById('UZPlayer'), { src: videoSrc });
+  </script>
+
+</body>
+
+</html>

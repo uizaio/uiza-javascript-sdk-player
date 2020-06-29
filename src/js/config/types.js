@@ -5,6 +5,7 @@
 export const providers = {
   html5: 'html5',
   hlsjs: 'hlsjs',
+  dashjs: 'dashjs',
 };
 
 export const types = {
@@ -17,6 +18,15 @@ export const types = {
  * @param {String} url
  */
 export function getProviderByUrl(url) {
+  // Hlsjs
+  if (/^https?:\/\/(.*).m3u8(.?)/.test(url)) {
+    return providers.hlsjs;
+  }
+  // Dashjs
+  if (/^https?:\/\/(.*).mpd(.?)/.test(url)) {
+    return providers.dashjs;
+  }
+
   return null;
 }
 

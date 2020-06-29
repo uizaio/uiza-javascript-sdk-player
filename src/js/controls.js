@@ -7,8 +7,8 @@ import RangeTouch from 'rangetouch';
 
 import captions from './captions';
 import events from './events';
+import hlsjs from './hls';
 import html5 from './html5';
-import hlsjs from './plugins/hlsjs';
 import support from './support';
 import { repaint, transitionEndEvent } from './utils/animation';
 import { dedupe } from './utils/arrays';
@@ -138,9 +138,7 @@ const controls = {
   createLabel(key, attr = {}) {
     const text = i18n.get(key, this.config);
 
-    const attributes = Object.assign({}, attr, {
-      class: [attr.class, this.config.classNames.hidden].filter(Boolean).join(' '),
-    });
+    const attributes = { ...attr, class: [attr.class, this.config.classNames.hidden].filter(Boolean).join(' ') };
 
     return createElement('span', attributes, text);
   },
@@ -1357,6 +1355,19 @@ const controls = {
 
     // Focus the first item
     controls.focusFirstMenuItem.call(this, target, tabFocus);
+  },
+
+  // Set the download URL
+  setDownloadUrl() {
+    const button = this.elements.buttons.download;
+
+    // Bail if no button
+    if (!is.element(button)) {
+      return;
+    }
+
+    // Set attribute
+    button.setAttribute('href', this.download);
   },
 
   // Build the default HTML
