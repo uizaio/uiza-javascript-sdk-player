@@ -180,7 +180,8 @@ const hlsjs = {
     // Quality
     Object.defineProperty(player.media, 'quality', {
       get() {
-        return window.hls.levels[window.hls.currentLevel].height || -1;
+        const currentLevel = window.hls.currentLevel > 0 ? window.hls.currentLevel : 0;
+        return window.hls.levels[currentLevel].height;
       },
       set(input) {
         // If we're using an an external handler...
