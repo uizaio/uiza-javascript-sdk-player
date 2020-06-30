@@ -180,6 +180,9 @@ const hlsjs = {
     // Quality
     Object.defineProperty(player.media, 'quality', {
       get() {
+        if (!window.hls) {
+          return -1;
+        }
         const currentLevel = window.hls.currentLevel > 0 ? window.hls.currentLevel : 0;
         return window.hls.levels[currentLevel].height;
       },
