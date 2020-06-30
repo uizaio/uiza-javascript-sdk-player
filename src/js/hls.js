@@ -46,17 +46,6 @@ const fowardEvents = [
 ];
 
 const hlsjs = {
-  // Get quality levels
-  getQualityOptions() {
-    if (!this.isHlsjs && !!window.hls) {
-      return;
-    }
-    // Whether we're forcing all options (e.g. for streaming)
-    const qualities = window.hls.levels.map(level => level.height) || [-1];
-
-    return qualities;
-  },
-
   setup() {
     if (!is.function(window.Hls)) {
       loadScript(this.config.urls.hlsjs.sdk)
@@ -180,7 +169,8 @@ const hlsjs = {
     // Quality
     Object.defineProperty(player.media, 'quality', {
       get() {
-        return window.hls.levels[window.hls.currentLevel].height || -1;
+        const { currentLevel, levels } = window.hls;
+        return levels && levels[currentLevel] ? levels[currentLevel].height : -1;
       },
       set(input) {
         // If we're using an an external handler...

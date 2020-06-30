@@ -2,22 +2,12 @@
 // Uiza HTML5 helpers
 // ==========================================================================
 
+import { toggleClass } from './utils/elements';
 import is from './utils/is';
 import loadScript from './utils/load-script';
 import { setAspectRatio } from './utils/style';
 
 const dashjs = {
-  // Get quality levels
-  getQualityOptions() {
-    if (!this.isDashjs && !!window.dashjs) {
-      return;
-    }
-    // Whether we're forcing all options (e.g. for streaming)
-    const qualities = window.hls.levels.map(level => level.height) || [-1];
-
-    return qualities;
-  },
-
   setup() {
     if (!is.function(window.dashjs)) {
       loadScript(this.config.urls.dashjs.sdk)
@@ -41,6 +31,7 @@ const dashjs = {
 
     // Set speed options from config
     player.options.speed = player.config.speed.options;
+    toggleClass(this.elements.progress, 'show', true);
 
     // Set aspect ratio if fixed
     if (!is.empty(this.config.ratio)) {
