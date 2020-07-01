@@ -1,3 +1,7 @@
+<p align="center">
+<img src="https://d3co7cvuqq9u2k.cloudfront.net/public/image/logo/uiza_logo_color.png" data-canonical-src="https://uiza.io" width="450" height="220" />
+</p>
+
 # Uiza Player Web SDK
 
 [![License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://npmjs.org/package/@uizaio/playerjs)
