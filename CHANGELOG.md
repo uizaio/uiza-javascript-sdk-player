@@ -5,9 +5,11 @@
 
 ## v5.20.7
 
-- Add auto provider by url src
 - Support play with [DashJS](https://github.com/Dash-Industry-Forum/dash.js/wiki)
+- Auto provider by URL of the video
+- Lazyload library for dashjs or hlsjs
 - Fixbug change quality with hlsjs
+- Play default with non-timeshift by the hls.js link from Uiza (`#EXT-X-UZ-TIMESHIFT:extras/master.m3u8` or `#EXT-X-UZ-TIMESHIFT:master.m3u8`)
 
 
 ## v5.20.06rc6
