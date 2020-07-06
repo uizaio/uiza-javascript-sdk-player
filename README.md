@@ -1,3 +1,7 @@
+<p align="center">
+<img src="https://d3co7cvuqq9u2k.cloudfront.net/public/image/logo/uiza_logo_color.png" data-canonical-src="https://uiza.io" width="450" height="220" />
+</p>
+
 # Uiza Player Web SDK
 
 [![License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://npmjs.org/package/@uizaio/playerjs)
@@ -14,7 +18,7 @@ Uiza Player is a simple, lightweight, accessible and customizable HTML5, media p
 
 ### Demos
 
-You can try Uiza in Codepen using our minimal templates. For Streaming we also have example integrations with: [Hls.js](https://codepen.io/leduongcom/pen/dyYwRMm) and [VOD](https://codepen.io/leduongcom/pen/JjYwJxB)
+You can try Uiza in Codepen using our minimal templates. For Streaming we also have example integrations with: [Hls.js](https://playcode.io/614075), [Dash.js](https://playcode.io/628492) and [VOD](https://playcode.io/614073/)
 
 # Quick setup
 

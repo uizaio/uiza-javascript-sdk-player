@@ -100,7 +100,7 @@
     "stylelint-order": "^4.1.0",
     "stylelint-scss": "^3.17.2",
     "stylelint-selector-bem-pattern": "^2.1.0",
-    "through2": "^3.0.1",
+    "through2": "^4.0.1",
     "watch": "1.0.2"
   },
   "dependencies": {
