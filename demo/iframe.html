@@ -22,35 +22,37 @@
   <video id='player' crossorigin playsinline autoplay muted></video>
 
   <script>
-    function urlQuery(query) {
-      query = query.replace(/[\[]/, '\\\[').replace(/[\]]/, '\\\]');
-      var expr = '[\\?&]' + query + '=([^&#]*)';
-      var regex = new RegExp(expr);
-      var results = regex.exec(window.location.href);
-      if (results !== null) {
-        return results[1];
-      } else {
-        return '';
+    function getQueryParams() {
+      const queryParams = {};
+      const anchor = document.createElement('a');
+      anchor.href = window.location.href;
+      const queryStrings = anchor.search.substring(1);
+      const params = queryStrings.split('&');
+
+      for (let i = 0; i < params.length; i += 1) {
+        const pair = params[i].split('=');
+        queryParams[pair[0]] = decodeURIComponent(pair[1]);
       }
-    }
+      return queryParams;
+    };
+    const params = getQueryParams();
 
-    if (urlQuery('playback')) {
-      var playback = unescape(urlQuery('playback'));
-      var poster = unescape(urlQuery('poster'));
-      var toggleLiveViewer = unescape(urlQuery('toggleLiveViewer')) !== 'false';
-      var UZoptions;
+    if (params.playback) {
+      const toggleLiveViewer = params.toggleLiveViewer !== 'false';
+      const videoSrc = params.cm ? [params.playback, '?cm=', params.cm].join('') : params.playback;
+      let UZoptions;
 
-      if (poster) {
+      if (params.poster) {
         UZoptions = {
-          src: playback,
-          poster,
+          src: videoSrc,
+          poster: params.poster,
           ui: {
             toggleLiveViewer
           }
         }
       } else {
         UZoptions = {
-          src: playback,
+          src: videoSrc,
           ui: {
             toggleLiveViewer
           }
