@@ -119,11 +119,25 @@ const initSessionId = () => {
   }
 };
 
+const getQueryParams = url => {
+  const queryParams = {};
+  const anchor = document.createElement('a');
+  anchor.href = url;
+  const queryStrings = anchor.search.substring(1);
+  const params = queryStrings.split('&');
+
+  for (let i = 0; i < params.length; i += 1) {
+    const pair = params[i].split('=');
+    queryParams[pair[0]] = decodeURIComponent(pair[1]);
+  }
+  return queryParams;
+};
+
 const playUrlInfo = url => {
-  const info = url.split('?cm=')[1] || '';
+  const params = getQueryParams(url);
   let appInfo;
   try {
-    appInfo = JSON.parse(atob(info));
+    appInfo = JSON.parse(atob(params.cm));
     // eslint-disable-next-line no-empty
   } catch (e) {}
   return appInfo || {};
@@ -152,15 +166,6 @@ const UZAnalytic = {
 
     const entity = playUrlInfo(player.config.src);
     player.setUiza({ ...entity, live_ended: false, viewed: false });
-
-    // 'watching': the user is watching live, and this information is sent every 5 seconds.
-    const checkLiveEnded = () => {
-      setInterval(() => {
-        const now = (new Date().getTime() / 1000).toFixed(0);
-        const lastUpdateDuration = sessionStorage.getItem('uiza-last_update_duration');
-        this.uiza.live_ended = lastUpdateDuration && Number(now) - Number(lastUpdateDuration) > 30;
-      }, 500);
-    };
 
     // 'watching': the user is watching live, and this information is sent every 5 seconds.
     const playingEvent = () => {
@@ -211,7 +216,7 @@ const UZAnalytic = {
       }, 5000);
     };
 
-    const triggEvents = () => {
+    const listenEvents = () => {
       player.on(playerEvents.join(' '), e => {
         switch (e.type) {
           case listEvents.PLAYING:
@@ -225,10 +230,9 @@ const UZAnalytic = {
       });
     };
 
-    checkLiveEnded();
     getLiveViewers();
     playingEvent();
-    triggEvents();
+    listenEvents();
   },
 };
 
