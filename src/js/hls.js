@@ -46,17 +46,6 @@ const fowardEvents = [
 ];
 
 const hlsjs = {
-  // Get quality levels
-  getQualityOptions() {
-    if (!this.isHlsjs && !!window.hls) {
-      return;
-    }
-    // Whether we're forcing all options (e.g. for streaming)
-    const qualities = window.hls.levels.map(level => level.height) || [-1];
-
-    return qualities;
-  },
-
   setup() {
     if (!is.function(window.Hls)) {
       loadScript(this.config.urls.hlsjs.sdk)
@@ -95,8 +84,8 @@ const hlsjs = {
     player.on(events.LEVEL_UPDATED, () => {
       if (this.isLive) {
         const now = (new Date().getTime() / 1000).toFixed(0);
-        const lastUpdateDuration = sessionStorage.getItem('uiza-last_update_duration');
-        if (lastUpdateDuration && Number(now) - Number(lastUpdateDuration) > player.targetDuration * 3) {
+        const { programDateTime } = this.uiza;
+        if (programDateTime && now - programDateTime > player.targetDuration * 3) {
           toggleClass(this.elements.live, 'show', false);
           toggleClass(this.elements.watching, 'show', false);
         } else {
@@ -113,11 +102,6 @@ const hlsjs = {
           toggleClass(this.elements.settings.buttons.speed, 'hide', false);
         }
       }
-    });
-
-    player.on(events.DURATION_CHANGE, () => {
-      const now = (new Date().getTime() / 1000).toFixed(0);
-      sessionStorage.setItem('uiza-last_update_duration', now);
     });
 
     hls.on(window.Hls.Events.MANIFEST_PARSED, (event, data) => {
@@ -155,8 +139,23 @@ const hlsjs = {
       }
     });
 
+    hls.on(window.Hls.Events.FRAG_CHANGED, () => {
+      const now = (new Date().getTime() / 1000).toFixed(0);
+      player.setUiza({ programDateTime: now, live_ended: false });
+    });
+
     hls.on(window.Hls.Events.LEVEL_LOADED, (event, data) => {
       const { details } = data;
+      const { programDateTime } = this.uiza;
+      const now = (new Date().getTime() / 1000).toFixed(0);
+
+      // Pause request with timeout 60 seconds
+      if (now - programDateTime > 60) {
+        player.pause();
+        player.setUiza({ live_ended: true });
+        hlsjs.cancelRequests.call(this);
+      }
+
       if (details && details.targetduration) {
         player.setUiza({
           targetduration: details.targetduration,
@@ -180,11 +179,8 @@ const hlsjs = {
     // Quality
     Object.defineProperty(player.media, 'quality', {
       get() {
-        if (!window.hls) {
-          return -1;
-        }
-        const currentLevel = window.hls.currentLevel > 0 ? window.hls.currentLevel : 0;
-        return window.hls.levels && window.hls.levels[currentLevel] ? window.hls.levels[currentLevel].height : -1;
+        const { currentLevel, levels } = window.hls;
+        return levels && levels[currentLevel] ? levels[currentLevel].height : -1;
       },
       set(input) {
         // If we're using an an external handler...
@@ -212,14 +208,8 @@ const hlsjs = {
     if (!this.isHlsjs && !!window.hls) {
       return;
     }
-    this.media.setAttribute('src', this.config.blankVideo);
 
-    // Load the new empty source
-    // This will cancel existing requests
-    this.media.load();
-
-    // Debugging
-    window.hls.destoy();
+    window.hls.destroy();
     this.debug.log('Cancelled network requests');
   },
 };
