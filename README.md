@@ -18,7 +18,7 @@ Uiza Player is a simple, lightweight, accessible and customizable HTML5, media p
 
 ### Demos
 
-You can try Uiza in Codepen using our minimal templates. For Streaming we also have example integrations with: [Hls.js](https://codepen.io/leduongcom/pen/dyYwRMm) and [VOD](https://codepen.io/leduongcom/pen/JjYwJxB)
+You can try Uiza in Codepen using our minimal templates. For Streaming we also have example integrations with: [Hls.js](https://playcode.io/614075), [Dash.js](https://playcode.io/628492) and [VOD](https://playcode.io/614073/)
 
 # Quick setup
 
