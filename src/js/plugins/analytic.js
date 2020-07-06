@@ -119,11 +119,25 @@ const initSessionId = () => {
   }
 };
 
+const getQueryParams = url => {
+  const queryParams = {};
+  const anchor = document.createElement('a');
+  anchor.href = url;
+  const queryStrings = anchor.search.substring(1);
+  const params = queryStrings.split('&');
+
+  for (let i = 0; i < params.length; i += 1) {
+    const pair = params[i].split('=');
+    queryParams[pair[0]] = decodeURIComponent(pair[1]);
+  }
+  return queryParams;
+};
+
 const playUrlInfo = url => {
-  const info = url.split('?cm=')[1] || '';
+  const params = getQueryParams(url);
   let appInfo;
   try {
-    appInfo = JSON.parse(atob(info));
+    appInfo = JSON.parse(atob(params.cm));
     // eslint-disable-next-line no-empty
   } catch (e) {}
   return appInfo || {};
