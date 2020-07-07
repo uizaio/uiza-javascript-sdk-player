@@ -2,8 +2,9 @@
 // Uiza Media
 // ==========================================================================
 
+import dashjs from './dash';
+import hlsjs from './hls';
 import html5 from './html5';
-import hlsjs from './plugins/hlsjs';
 import { createElement, toggleClass, wrap } from './utils/elements';
 
 const media = {
@@ -47,6 +48,8 @@ const media = {
 
     if (this.isHlsjs) {
       hlsjs.setup.call(this);
+    } else if (this.isDashjs) {
+      dashjs.setup.call(this);
     } else if (this.isHTML5) {
       html5.setup.call(this);
     }

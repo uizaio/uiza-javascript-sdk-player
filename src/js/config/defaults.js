@@ -5,9 +5,21 @@
 import { version as VERSION } from '../../../package.json';
 import events from '../events';
 
-const CLOUD_URL = `https://cdn.jsdelivr.net/npm/@uizaio/playerjs@${VERSION}/dist/`;
+const env = '__ENVIRONMENT__';
+const CLOUD_URL = {
+  production: `https://cdn.jsdelivr.net/npm/@uizaio/playerjs@${VERSION}/dist`,
+  staging: `https://playerjs-dev.uizadev.io/${VERSION}`,
+  development: `http://localhost:8080/`,
+};
+
+const stripSplash = str => {
+  return str.replace(/([^:]\/)\/+/g, '$1');
+};
 
 const defaults = {
+  // Time of build
+  build: '__BUILDTIME__',
+
   // Disable
   enabled: true,
 
@@ -25,7 +37,7 @@ const defaults = {
   analytic: true,
 
   // Embed and Share video
-  sharing: true,
+  sharing: false,
 
   // Toggle Live timeshift
   timeshift: true,
@@ -80,15 +92,16 @@ const defaults = {
   // Sprite (for icons)
   loadSprite: true,
   iconPrefix: 'uiza',
-  iconUrl: `${CLOUD_URL}uiza.svg`,
+  iconUrl: stripSplash(`${CLOUD_URL[env]}/uiza.svg`),
 
   // Blank video (used to prevent errors on source change)
-  blankVideo: '',
+  blankVideo: stripSplash(`${CLOUD_URL[env]}/blank.mp4`),
 
   // Quality default
   quality: {
     forced: false,
     options: [],
+    onChange: null,
   },
 
   // Set loops
@@ -155,6 +168,7 @@ const defaults = {
     captions: true,
     settings: true,
     pip: true,
+    airplay: true,
     live: true,
     fullscreen: true,
     speed: true,
@@ -228,10 +242,13 @@ const defaults = {
   // URLs
   urls: {
     hlsjs: {
-      sdk: `https://cdnjs.cloudflare.com/ajax/libs/hls.js/0.13.2/hls.min.js`,
+      sdk: stripSplash(`${CLOUD_URL[env]}/hls.min.js`),
+    },
+    dashjs: {
+      sdk: stripSplash(`${CLOUD_URL[env]}/dash.min.js`),
     },
     fingerprintjs2: {
-      sdk: `https://cdnjs.cloudflare.com/ajax/libs/fingerprintjs2/2.1.0/fingerprint2.min.js`,
+      sdk: stripSplash(`${CLOUD_URL[env]}/fingerprint2.min.js`),
     },
   },
 
@@ -248,6 +265,7 @@ const defaults = {
     captions: null,
     fullscreen: null,
     pip: null,
+    airplay: null,
     speed: null,
     quality: null,
     loop: null,
@@ -277,6 +295,7 @@ const defaults = {
       captions: '[data-uiza="captions"]',
       fullscreen: '[data-uiza="fullscreen"]',
       pip: '[data-uiza="pip"]',
+      airplay: '[data-uiza="airplay"]',
       settings: '[data-uiza="settings"]',
       loop: '[data-uiza="loop"]',
     },
@@ -347,6 +366,10 @@ const defaults = {
     pip: {
       supported: 'uiza--pip-supported',
       active: 'uiza--pip-active',
+    },
+    airplay: {
+      supported: 'uiza--airplay-supported',
+      active: 'uiza--airplay-active',
     },
     tabFocus: 'uiza__tab-focus',
     previewThumbnails: {

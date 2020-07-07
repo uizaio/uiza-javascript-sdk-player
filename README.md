@@ -1,3 +1,7 @@
+<p align="center">
+<img src="https://d3co7cvuqq9u2k.cloudfront.net/public/image/logo/uiza_logo_color.png" data-canonical-src="https://uiza.io" width="450" height="220" />
+</p>
+
 # Uiza Player Web SDK
 
 [![License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://npmjs.org/package/@uizaio/playerjs)
@@ -14,7 +18,7 @@ Uiza Player is a simple, lightweight, accessible and customizable HTML5, media p
 
 ### Demos
 
-You can try Uiza in Codepen using our minimal templates. For Streaming we also have example integrations with: [Hls.js](https://codepen.io/leduongcom/pen/dyYwRMm) and [VOD](https://codepen.io/leduongcom/pen/JjYwJxB)
+You can try Uiza in Codepen using our minimal templates. For Streaming we also have example integrations with: [Hls.js](https://playcode.io/614075), [Dash.js](https://playcode.io/628492) and [VOD](https://playcode.io/614073/)
 
 # Quick setup
 
@@ -38,7 +42,7 @@ Uiza Player extends upon the standard [HTML5 media element](https://developer.mo
 ### HLS Stream Video
 
 ```html
-<video id='playerUz' data-uiza-provider=hlsjs crossorigin playsinline autoplay></video>
+<video id='playerUz' crossorigin playsinline autoplay></video>
 <script>
   var videoStreamURL = 'https://1955897154.rsc.cdn77.org/live/116881ad-3463-4209-b16f-50e0e48add10/master.m3u8?cm=eyJlbnRpdHlfaWQiOiI2ZWUyMzk5NS1mNGFhLTQ1ZDMtOTM5NS0xN2NlNjBlZWJjNDAiLCJlbnRpdHlfc291cmNlIjoibGl2ZSIsImFwcF9pZCI6IjkyYThkMjAzMmZlODQ5MmFhNzc4MDRiNGMyYzUxOWM1In0=';
 
@@ -90,7 +94,7 @@ example.html
 </head>
 
 <body>
-  <video id='playerUz' data-uiza-provider=hlsjs crossorigin playsinline autoplay></video>
+  <video id='playerUz' crossorigin playsinline autoplay></video>
 
   <script>
     var videoStreamURL = 'https://1955897154.rsc.cdn77.org/live/116881ad-3463-4209-b16f-50e0e48add10/master.m3u8?cm=eyJlbnRpdHlfaWQiOiI2ZWUyMzk5NS1mNGFhLTQ1ZDMtOTM5NS0xN2NlNjBlZWJjNDAiLCJlbnRpdHlfc291cmNlIjoibGl2ZSIsImFwcF9pZCI6IjkyYThkMjAzMmZlODQ5MmFhNzc4MDRiNGMyYzUxOWM1In0=';
@@ -126,7 +130,7 @@ Maximum buffer length in seconds. Hls.js will never exceed this value, even if m
 
 hls.js tries to buffer up to a maximum number of bytes (6 MB by default) rather than to buffer up to a maximum nb of seconds. this is to mimic the browser behaviour (the buffer eviction algorithm is starting after the browser detects that video buffer size reaches a limit in bytes)
 
-Example for maxBufferLengthand maxMaxBufferLength.  [Demo here](https://playcode.io/608594/)
+Example for maxBufferLengthand maxMaxBufferLength.  [Demo here](https://playcode.io/628085)
 ```html
 <!DOCTYPE html>
 <html lang='en' dir='ltr'>
@@ -142,7 +146,7 @@ Example for maxBufferLengthand maxMaxBufferLength.  [Demo here](https://playcode
 </head>
 
 <body>
-  <video id='playerUz' data-uiza-provider=hlsjs crossorigin playsinline autoplay></video>
+  <video id='playerUz' crossorigin playsinline autoplay></video>
 
   <script>
     var videoStreamURL = 'https://1955897154.rsc.cdn77.org/live/116881ad-3463-4209-b16f-50e0e48add10/master.m3u8?cm=eyJlbnRpdHlfaWQiOiI2ZWUyMzk5NS1mNGFhLTQ1ZDMtOTM5NS0xN2NlNjBlZWJjNDAiLCJlbnRpdHlfc291cmNlIjoibGl2ZSIsImFwcF9pZCI6IjkyYThkMjAzMmZlODQ5MmFhNzc4MDRiNGMyYzUxOWM1In0=';
@@ -218,7 +222,7 @@ Example for hide button `pip` and `settings`, only override configure to false. 
 </head>
 
 <body>
-  <video id='playerUz' data-uiza-provider=hlsjs crossorigin playsinline autoplay muted></video>
+  <video id='playerUz' crossorigin playsinline autoplay muted></video>
 
   <script>
     var videoStreamURL = 'https://1955897154.rsc.cdn77.org/live/116881ad-3463-4209-b16f-50e0e48add10/master.m3u8?cm=eyJlbnRpdHlfaWQiOiI2ZWUyMzk5NS1mNGFhLTQ1ZDMtOTM5NS0xN2NlNjBlZWJjNDAiLCJlbnRpdHlfc291cmNlIjoibGl2ZSIsImFwcF9pZCI6IjkyYThkMjAzMmZlODQ5MmFhNzc4MDRiNGMyYzUxOWM1In0=';

@@ -3,7 +3,16 @@
 [comment]: <> (+ Bugs fixed block, sort by a, b, c,...)
 [comment]: <> (+ Demo page, sort by a, b, c,...)
 
-## v5.20.06-staging
+## v5.20.7
+
+- Support play with [DashJS](https://github.com/Dash-Industry-Forum/dash.js/wiki)
+- Auto provider by URL of the video
+- Lazyload library for dashjs or hlsjs
+- Fixbug change quality with hlsjs
+- Play default with non-timeshift by the hls.js link from Uiza (`#EXT-X-UZ-TIMESHIFT:extras/master.m3u8` or `#EXT-X-UZ-TIMESHIFT:master.m3u8`)
+
+
+## v5.20.06rc6
 
 - Add context menu on right click
 - Add [toggle UI](https://github.com/uizaio/uiza-javascript-sdk-player/blob/master/README.md#customizing-the-ui-button)

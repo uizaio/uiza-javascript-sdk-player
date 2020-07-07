@@ -7,8 +7,8 @@ import RangeTouch from 'rangetouch';
 
 import captions from './captions';
 import events from './events';
+import hlsjs from './hls';
 import html5 from './html5';
-import hlsjs from './plugins/hlsjs';
 import support from './support';
 import { repaint, transitionEndEvent } from './utils/animation';
 import { dedupe } from './utils/arrays';
@@ -138,9 +138,7 @@ const controls = {
   createLabel(key, attr = {}) {
     const text = i18n.get(key, this.config);
 
-    const attributes = Object.assign({}, attr, {
-      class: [attr.class, this.config.classNames.hidden].filter(Boolean).join(' '),
-    });
+    const attributes = { ...attr, class: [attr.class, this.config.classNames.hidden].filter(Boolean).join(' ') };
 
     return createElement('span', attributes, text);
   },
@@ -672,24 +670,29 @@ const controls = {
         const watchingNow = this.uiza.analytic_total_views > 1 ? i18n.get('viewers', this.config) : i18n.get('viewer', this.config);
         this.elements.watching.innerText = [this.uiza.analytic_total_views, watchingNow].join(' ');
       }
+    }
 
-      if (this.config.stats && this.uiza.isShowStats && this.config.statsShow) {
-        const container = createElement('div');
-        const table = createElement('TABLE');
-        this.config.statsShow.forEach(k => {
-          const row = table.insertRow(0);
-          const label = row.insertCell(0);
-          const value = row.insertCell(1);
-          label.innerHTML = i18n.get(k, this.config);
-          value.innerHTML = this.uiza[k];
-        });
-        container.appendChild(table);
-        this.elements.stats.innerHTML = container.innerHTML;
-      }
+    if (this.config.stats && this.uiza.isShowStats && this.config.statsShow) {
+      const droppedOf = i18n.get('dropped_of', this.config);
+      this.setUiza({
+        viewport_dropped: `${this.media.clientWidth}x${this.media.clientHeight} / ${this.uiza.currentDropped} ${droppedOf}`,
+      });
+
+      const container = createElement('div');
+      const table = createElement('TABLE');
+      this.config.statsShow.forEach(k => {
+        const row = table.insertRow(0);
+        const label = row.insertCell(0);
+        const value = row.insertCell(1);
+        label.innerHTML = i18n.get(k, this.config);
+        value.innerHTML = this.uiza[k];
+      });
+      container.appendChild(table);
+      this.elements.stats.innerHTML = container.innerHTML;
     }
 
     // eslint-disable-next-line no-param-reassign
-    target.innerText = this.uiza.timeshift ? controls.formatTime(time, inverted) : '';
+    target.innerText = this.uiza.timeshift || this.uiza.vod ? controls.formatTime(time, inverted) : '';
   },
 
   // Update volume UI and storage
@@ -1354,6 +1357,19 @@ const controls = {
     controls.focusFirstMenuItem.call(this, target, tabFocus);
   },
 
+  // Set the download URL
+  setDownloadUrl() {
+    const button = this.elements.buttons.download;
+
+    // Bail if no button
+    if (!is.element(button)) {
+      return;
+    }
+
+    // Set attribute
+    button.setAttribute('href', this.download);
+  },
+
   // Build the default HTML
   create(data) {
     const {
@@ -1561,8 +1577,7 @@ const controls = {
           const menuItem = createElement(
             'div',
             extend(getAttributesFromSelector(this.config.selectors.buttons.settings), {
-              // type: 'button',
-              class: `${this.config.classNames.control}${haveForwar}`,
+              class: `${this.config.classNames.control}${haveForwar} ${type}`,
               role: 'menuitem',
               'aria-haspopup': true,
               // hidden: '',

@@ -37,12 +37,16 @@
       "src": "./demo/favicon.ico",
       "dist": "./dist/"
     },
-    "iframe.html": {
-      "src": "./demo/iframe.html",
+    "blank.mp4": {
+      "src": "./demo/blank.mp4",
       "dist": "./dist/"
     },
-    "test.html": {
-      "src": "./demo/test.html",
+    "JS": {
+      "src": "./demo/libs/*.min.js",
+      "dist": "./dist/"
+    },
+    "HTML": {
+      "src": "./demo/*.html",
       "dist": "./dist/"
     }
   },
