@@ -86,6 +86,7 @@ const hlsjs = {
     } else {
       // eslint-disable-next-line no-undef
       const hls = new Hls({
+        debug: true,
         startLevel: this.config.adaptive.startLevel,
         // Buffer config
         maxBufferLength: this.config.buffer.maxBufferLength < 30 ? this.config.buffer.maxBufferLength : 10,
@@ -127,8 +128,10 @@ const hlsjs = {
           // Toggle progress for non-timeshift and timeshift livestream
           if (!this.uiza.timeshift) {
             toggleClass(this.elements.progress, 'show', false);
+            toggleClass(this.elements.settings.buttons.speed, 'hide', true);
           } else {
             toggleClass(this.elements.progress, 'show', true);
+            toggleClass(this.elements.settings.buttons.speed, 'hide', false);
           }
         }
       });
@@ -138,8 +141,17 @@ const hlsjs = {
         sessionStorage.setItem('uiza-last_update_duration', now);
       });
 
-      hls.on(window.Hls.Events.MANIFEST_PARSED, () => {
-        const qualities = [];
+      hls.on(window.Hls.Events.MANIFEST_PARSED, (event, data) => {
+        const { timeshift } = data;
+        if (timeshift === 'extras/master.m3u8' || timeshift === 'master.m3u8') {
+          player.setUiza({
+            src: player.config.src.replace('extras/master.m3u8', 'master.m3u8'),
+            extras: player.config.src.replace('master.m3u8', 'extras/master.m3u8').replace('extras/extras', 'extras'),
+          });
+          toggleClass(this.elements.settings.buttons.timeshift, 'show', true);
+        } else {
+          toggleClass(this.elements.progress, 'show', true);
+        }
 
         if (this.isLive) {
           player.currentTime = player.duration - 1;
@@ -149,25 +161,22 @@ const hlsjs = {
           player.play();
         }
 
-        hls.levels.forEach(level => {
-          qualities.push(level.height);
-        });
-
+        const qualities = hls.levels.map(level => level.height);
         player.options.quality = [-1, ...qualities]; // clone array without ref
         player.config.quality.options = qualities[0] < qualities[qualities.length - 1] ? [-1, ...qualities.reverse()] : [-1, ...qualities]; // force support quality from manifest
-        // player.quality = player.options.quality[0];
         player.quality = -1;
-
         controls.setQualityMenu.call(player, player.options.quality);
       });
 
-      hls.on(window.Hls.Events.LEVEL_LOADED, (event, data) => {
+      hls.on(window.Hls.Events.FRAG_PARSED, (event, data) => {
         const { attrs } = hls.levels[window.hls.currentLevel] || {};
         if (attrs) {
           const frameRate = Number(attrs['FRAME-RATE']).toFixed(0);
           player.setUiza({ codecs: attrs.CODECS, resolution: [attrs.RESOLUTION, '@', frameRate].join('') });
         }
+      });
 
+      hls.on(window.Hls.Events.LEVEL_LOADED, (event, data) => {
         const { details } = data;
         if (details && details.targetduration) {
           player.setUiza({
@@ -176,7 +185,6 @@ const hlsjs = {
             version: details.version,
             live: details.live,
             vod: details.type === 'VOD',
-            // timeshift: details.targetduration * 5 < details.totalduration,
           });
         }
       });
@@ -187,14 +195,6 @@ const hlsjs = {
 
       hls.detachMedia();
       hls.attachMedia(player.media);
-
-      player.setUiza({
-        src: player.config.src.replace('extras/master.m3u8', 'master.m3u8').replace('extras/manifest.mpd', 'manifest.mpd'),
-        extras: player.config.src
-          .replace('master.m3u8', 'extras/master.m3u8')
-          .replace('manifest.mpd', 'extras/manifest.mpd')
-          .replace('extras/extras', 'extras'),
-      });
 
       window.hls = hls;
     }

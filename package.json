@@ -44,6 +44,7 @@
     "@babel/core": "^7.10.2",
     "@babel/preset-env": "^7.10.2",
     "ansi-colors": "^4.1.1",
+    "assert": "^2.0.0",
     "aws-sdk": "^2.693.0",
     "babel-eslint": "^10.1.0",
     "del": "^5.1.0",
@@ -75,6 +76,7 @@
     "gulp-sourcemaps": "^2.6.5",
     "gulp-svgstore": "^7.0.1",
     "gulp-terser": "^1.2.0",
+    "http-server": "^0.12.3",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.9",
     "live-server": "1.2.1",
@@ -89,6 +91,7 @@
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-json": "4.0.0",
     "rollup-plugin-node-resolve": "^5.2.0",
+    "selenium-webdriver": "^4.0.0-alpha.7",
     "stylelint": "^13.6.0",
     "stylelint-config-prettier": "^8.0.1",
     "stylelint-config-recommended": "^3.0.0",
@@ -96,7 +99,7 @@
     "stylelint-order": "^4.1.0",
     "stylelint-scss": "^3.17.2",
     "stylelint-selector-bem-pattern": "^2.1.0",
-    "through2": "^3.0.1",
+    "through2": "^4.0.1",
     "watch": "1.0.2"
   },
   "dependencies": {
