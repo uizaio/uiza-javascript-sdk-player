@@ -93,8 +93,12 @@ const hlsjs = {
             toggleClass(this.elements.live, 'show', false);
             toggleClass(this.elements.watching, 'show', false);
           } else {
-            toggleClass(this.elements.live, 'show', true);
-            toggleClass(this.elements.watching, 'show', true);
+            if (this.uiza && this.config.ui.live) {
+              toggleClass(this.elements.live, 'show', true);
+            }
+            if (this.uiza && this.config.ui.toggleLiveViewer) {
+              toggleClass(this.elements.watching, 'show', true);
+            }
           }
 
           // Toggle progress for non-timeshift and timeshift livestream
