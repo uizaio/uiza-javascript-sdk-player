@@ -77,7 +77,11 @@ const hlsjs = {
     // Forward Hlsjs events
     fowardEvents.forEach(evt => {
       hls.on(window.Hls.Events[evt], (event, data) => {
-        triggerEvent.call(player, player.elements.container, events[evt], false, data);
+        try {
+          triggerEvent.call(player, player.elements.container, events[evt], false, data);
+        } catch (e) {
+          this.debug.error(e);
+        }
       });
     });
 
