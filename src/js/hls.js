@@ -77,7 +77,11 @@ const hlsjs = {
       // Forward Hlsjs events
       fowardEvents.forEach(evt => {
         hls.on(window.Hls.Events[evt], (event, data) => {
-          triggerEvent.call(player, player.elements.container, events[evt], false, data);
+          try {
+            triggerEvent.call(player, player.elements.container, events[evt], false, data);
+          } catch (e) {
+            this.debug.error(e);
+          }
         });
       });
 
@@ -89,8 +93,12 @@ const hlsjs = {
             toggleClass(this.elements.live, 'show', false);
             toggleClass(this.elements.watching, 'show', false);
           } else {
-            toggleClass(this.elements.live, 'show', true);
-            toggleClass(this.elements.watching, 'show', true);
+            if (this.uiza && this.config.ui.live) {
+              toggleClass(this.elements.live, 'show', true);
+            }
+            if (this.uiza && this.config.ui.toggleLiveViewer) {
+              toggleClass(this.elements.watching, 'show', true);
+            }
           }
 
           // Toggle progress for non-timeshift and timeshift livestream
