@@ -135,7 +135,7 @@ const hlsjs = {
         const qualities = hls.levels.map(level => level.height);
         player.options.quality = [-1, ...qualities]; // clone array without ref
         player.config.quality.options = qualities[0] < qualities[qualities.length - 1] ? [-1, ...qualities.reverse()] : [-1, ...qualities]; // force support quality from manifest
-        player.quality = -1;
+        player.quality = -1; // Auto level switch quality
         this.setQualityMenu.call(player, player.options.quality);
       });
 
@@ -143,7 +143,7 @@ const hlsjs = {
         const { attrs } = hls.levels[window.hls.currentLevel] || {};
         if (attrs) {
           const frameRate = Number(attrs['FRAME-RATE']).toFixed(0);
-          player.setUiza({ codecs: attrs.CODECS, resolution: [attrs.RESOLUTION, '@', frameRate].join('') });
+          player.setUiza({frameRate, codecs: attrs.CODECS, resolution: [attrs.RESOLUTION, '@', frameRate].join('') });
         }
       });
 

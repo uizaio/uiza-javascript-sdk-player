@@ -996,7 +996,7 @@ const controls = {
           const label = i18n.get(`qualityLabel.${value}`, this.config);
 
           if (!label.length) {
-            return `${value}p`;
+            return this.uiza.frameRate > 30 ? `${value}p${this.uiza.frameRate}` : `${value}p`;
           }
 
           return label;
