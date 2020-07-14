@@ -33,7 +33,6 @@ const UzStats = {
 
       if (level > -1) {
         const videoBitrate = Math.round(window.hls.levels[level].bitrate / 1000);
-        player.quality = window.hls.levels[level].height;
         player.setUiza({
           bitrate: `${videoBitrate} kbps`,
         });
