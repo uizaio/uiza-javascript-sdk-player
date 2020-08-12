@@ -54,7 +54,7 @@
     "uiza.js": {
       "src": "./src/js/uiza.js",
       "dist": "./dist/",
-      "formats": [],
+      "formats": ["es", "umd"],
       "namespace": "Uiza"
     },
     "uiza.polyfilled.js": {
