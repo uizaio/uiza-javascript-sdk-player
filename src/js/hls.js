@@ -65,6 +65,9 @@ const hlsjs = {
     if (!window.Hls.isSupported()) {
       this.provider = providers.html5;
       player.media.src = player.config.src;
+
+      // Always show by native player iPhone
+      toggleClass(this.elements.progress, 'show', true);
     } else {
       // eslint-disable-next-line no-undef
       const hls = new Hls({
@@ -143,7 +146,7 @@ const hlsjs = {
         const { attrs } = hls.levels[window.hls.currentLevel] || {};
         if (attrs) {
           const frameRate = Number(attrs['FRAME-RATE']).toFixed(0);
-          player.setUiza({frameRate, codecs: attrs.CODECS, resolution: [attrs.RESOLUTION, '@', frameRate].join('') });
+          player.setUiza({ frameRate, codecs: attrs.CODECS, resolution: [attrs.RESOLUTION, '@', frameRate].join('') });
         }
       });
 
