@@ -13,15 +13,6 @@ script: npm run build:prod
 
 jobs:
   include:
-  - stage: saucelabs test
-    node_js: '12'
-    script: npm run build
-    after_success:
-      - node saucelabs.js
-    on:
-      branch: develop    
-    addons:
-      sauce_connect: true
   - stage: nightly build
     node_js: '12'
     script: npm run build:stage

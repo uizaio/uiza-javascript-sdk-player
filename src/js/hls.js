@@ -65,6 +65,9 @@ const hlsjs = {
     if (!window.Hls.isSupported()) {
       this.provider = providers.html5;
       player.media.src = player.config.src;
+
+      // Always show by native player iPhone
+      toggleClass(this.elements.progress, 'show', true);
     } else {
       // eslint-disable-next-line no-undef
       const hls = new Hls({
@@ -77,7 +80,11 @@ const hlsjs = {
       // Forward Hlsjs events
       fowardEvents.forEach(evt => {
         hls.on(window.Hls.Events[evt], (event, data) => {
-          triggerEvent.call(player, player.elements.container, events[evt], false, data);
+          try {
+            triggerEvent.call(player, player.elements.container, events[evt], false, data);
+          } catch (e) {
+            this.debug.error(e);
+          }
         });
       });
 
@@ -89,8 +96,12 @@ const hlsjs = {
             toggleClass(this.elements.live, 'show', false);
             toggleClass(this.elements.watching, 'show', false);
           } else {
-            toggleClass(this.elements.live, 'show', true);
-            toggleClass(this.elements.watching, 'show', true);
+            if (this.uiza && this.config.ui.live) {
+              toggleClass(this.elements.live, 'show', true);
+            }
+            if (this.uiza && this.config.ui.toggleLiveViewer) {
+              toggleClass(this.elements.watching, 'show', true);
+            }
           }
 
           // Toggle progress for non-timeshift and timeshift livestream
@@ -127,7 +138,7 @@ const hlsjs = {
         const qualities = hls.levels.map(level => level.height);
         player.options.quality = [-1, ...qualities]; // clone array without ref
         player.config.quality.options = qualities[0] < qualities[qualities.length - 1] ? [-1, ...qualities.reverse()] : [-1, ...qualities]; // force support quality from manifest
-        player.quality = -1;
+        player.quality = -1; // Auto level switch quality
         this.setQualityMenu.call(player, player.options.quality);
       });
 
@@ -135,7 +146,7 @@ const hlsjs = {
         const { attrs } = hls.levels[window.hls.currentLevel] || {};
         if (attrs) {
           const frameRate = Number(attrs['FRAME-RATE']).toFixed(0);
-          player.setUiza({ codecs: attrs.CODECS, resolution: [attrs.RESOLUTION, '@', frameRate].join('') });
+          player.setUiza({ frameRate, codecs: attrs.CODECS, resolution: [attrs.RESOLUTION, '@', frameRate].join('') });
         }
       });
 
